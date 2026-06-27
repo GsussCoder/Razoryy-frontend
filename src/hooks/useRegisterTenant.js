@@ -7,16 +7,12 @@ export function useRegisterTenant() {
   const [registering, setRegistering] = useState(false);
   const [registerError, setRegisterError] = useState(null);
 
-  const register = async ({ barberName, memberShip, memberShipPrice }) => {
+  const register = async ({ barberName, memberShip }) => {
     setRegistering(true);
     setRegisterError(null);
 
     try {
-      const created = await tenantsApi.create(
-        barberName,
-        memberShip,
-        memberShipPrice,
-      );
+      const created = await tenantsApi.create(barberName, memberShip);
 
       showSuccess(`La barbería ${barberName} ha sido creada.`);
 

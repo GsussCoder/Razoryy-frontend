@@ -1,41 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Scissors, User, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { apiClient } from '../services/apiClient';
-import RazoryyLogo from "../assets/logo.svg";
+import { User, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import RazoryyLogo from '../assets/logo.svg';
+import { useLogin } from '../hooks/useLogin';
 
 export default function Login() {
+  const { doLogin, isLoading, error } = useLogin();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
+    const ok = await doLogin(username, password);
 
-    try {
-      // Llamada real al backend
-      const response = await apiClient.post('/api/auth/login', { user: username, password });
-      
-      if (!response.isActive) {
-        setError('Tu cuenta está desactivada. Contacta al administrador.');
-        setIsLoading(false);
-        return;
-      }
-
-      login(response);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.message || 'Error al iniciar sesión. Verifica tus credenciales.');
-    } finally {
-      setIsLoading(false);
-    }
+    if (ok) navigate('/dashboard');
   };
 
   return (
@@ -125,7 +105,7 @@ export default function Login() {
         </div>
 
         <p className="text-center text-slate-500 text-sm mt-4">
-          © 2026 Clustsol - BarberPro System. Todos los derechos reservados.
+          © 2026 Razoryy por Clustsol. Todos los derechos reservados.
         </p>
       </div>
     </div>

@@ -64,12 +64,12 @@ const ALL_NAV_ITEMS = [
     feature: FEATURES.NAV_PAYMENTS,
   },
   { to: "/account", label: "Mi cuenta", icon: User, feature: null },
-  // {
-  //   to: "/settings",
-  //   label: "Configuración",
-  //   icon: Settings,
-  //   feature: FEATURES.NAV_SETTINGS,
-  // },
+  {
+    to: "/settings",
+    label: "Configuración",
+    icon: Settings,
+    feature: FEATURES.NAV_SETTINGS,
+  },
 ];
 
 export default function AdminLayout() {
@@ -119,8 +119,8 @@ export default function AdminLayout() {
           )}
           <div>
             <h1 className="text-lg font-bold text-white">
-              Razoryy
-              {/* {branding.barberName} */}
+              {/* Razoryy */}
+              {branding.barberName}
             </h1>
             <p className="text-xs text-slate-400">Panel de Administrador</p>
           </div>

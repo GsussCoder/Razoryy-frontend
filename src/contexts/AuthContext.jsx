@@ -12,6 +12,7 @@ export const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Restaurar sesión desde sessionStorage al cargar
@@ -26,10 +27,12 @@ export function AuthProvider({ children }) {
         logout();
       }
     }
+
+    setIsLoading(false);
   }, []);
 
   const login = (apiResponse) => {
-    const { id, token, name, user: username, role, isActive, tenantId, membership } = apiResponse;
+    const { id, token, name, user: username, role, isActive, tenantId, barberName, membership } = apiResponse;
     
     // Normalizar rol
     const normalizedRole = ROLE_MAP[role] || role.toLowerCase();
@@ -45,6 +48,7 @@ export function AuthProvider({ children }) {
       role: normalizedRole,
       isActive,
       tenantId: tenantId || null,
+      barberName: barberName,
       membership: normalizedMembership,
     };
 
@@ -64,7 +68,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

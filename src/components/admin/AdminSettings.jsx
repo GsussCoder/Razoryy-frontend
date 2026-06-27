@@ -1,13 +1,21 @@
-import { useState, useRef } from 'react';
-import { Upload, X, Palette, CreditCard } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useBranding } from '../../contexts/BrandingContext';
-import { usePermissions } from '../../hooks/usePermissions';
-import { FEATURES } from '../../config/permissions';
+import { useState, useRef } from "react";
+import { Upload, X, Palette, CreditCard } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useBranding } from "../../contexts/BrandingContext";
+import { usePermissions } from "../../hooks/usePermissions";
+import { FEATURES } from "../../config/permissions";
+import { useUpdateBusinessName } from "../../hooks/useUpdateBusinessName";
 
 export default function AdminSettings() {
   const { user } = useAuth();
-  const { branding, updatePrimaryColor, uploadLogo, deleteLogo, setBarberName } = useBranding();
+  const {
+    branding,
+    updatePrimaryColor,
+    uploadLogo,
+    deleteLogo,
+    setBarberName,
+  } = useBranding();
+  const { updateName, saving } = useUpdateBusinessName();
   const { can } = usePermissions();
   const [barberName, setBarberNameInput] = useState(branding.barberName);
   const [color, setColor] = useState(branding.primaryColor);
@@ -49,15 +57,18 @@ export default function AdminSettings() {
   //   await deleteLogo();
   // };
 
-  const handleSaveName = () => {
-    setBarberName(barberName);
+  const handleSaveName = async () => {
+    try {
+      await updateName(barberName);
+      setBarberName(barberName);
+    } catch {}
   };
 
   return (
     <div>
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Configuración</h2>
-        <p className="text-slate-400">Configuración global del local.</p>
+        <p className="text-slate-400">Información y configuración del local.</p>
       </div>
 
       <div className="space-y-6 max-w-2xl">
@@ -67,18 +78,19 @@ export default function AdminSettings() {
             <CreditCard className="w-5 h-5" />
             Nombre de la barberia
           </h3>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={barberName}
               onChange={(e) => setBarberNameInput(e.target.value)}
-              className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full sm:flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button
               onClick={handleSaveName}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm"
+              disabled={saving}
+              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm whitespace-nowrap"
             >
-              Guardar
+              {saving ? "Guardando..." : "Guardar"}
             </button>
           </div>
         </div>
@@ -170,10 +182,13 @@ export default function AdminSettings() {
           <h3 className="font-semibold text-white mb-4">Plan de membresía</h3>
           <div className="bg-slate-700/50 rounded-lg p-4">
             <p className="text-sm text-slate-300">
-              Tu plan actual es <span className="font-semibold text-white">{user?.membership?.toUpperCase() ?? '—'}</span>
+              Tu plan actual es{" "}
+              <span className="font-semibold text-white">
+                {user?.membership?.toUpperCase() ?? "—"}
+              </span>
             </p>
             <p className="text-xs text-slate-500 mt-1">
-              Para cambiar de plan, contacta al administrador del sistema.
+              Para cambiar de plan, contacta con el equipo de Razoryy.
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ export function BrandingProvider({ children }) {
   const [branding, setBranding] = useState({
     primaryColor: '#4f46e5',
     logo: null,
-    barberName: 'BarberPro | System',
+    barberName: 'Razoryy',
   });
   const [tenantId, setTenantId] = useState(null);
 
@@ -52,7 +52,6 @@ export function BrandingProvider({ children }) {
 
   const setBarberName = (name) => {
     setBranding((prev) => ({ ...prev, barberName: name }));
-    // TODO: Persistir en backend cuando exista el campo
   };
 
   return (

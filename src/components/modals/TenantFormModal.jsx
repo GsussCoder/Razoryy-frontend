@@ -17,7 +17,6 @@ export function TenantFormModal({ isOpen, onClose, onSuccess }) {
   const initialFormState = {
     barberName: "",
     memberShip: "BASIC",
-    memberShipPrice: Number(20000),
     // name: "",
     // user: "",
     // password: "",

@@ -7,7 +7,11 @@ import { hasPermission } from '../config/permissions';
  * @param {string} [requiredFeature] - Si se pasa, verifica que el usuario tenga ese permiso.
  */
 export default function ProtectedRoute({ children, requiredFeature }) {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

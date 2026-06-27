@@ -1,18 +1,14 @@
 import { useState } from 'react';
 import { Lock, Loader2, CheckCircle } from 'lucide-react';
-import { apiClient } from '../../services/apiClient';
+import { useChangePassword } from '../../hooks/userChangePassword';
 
 export default function EmployeeAccount() {
+  const { changePassword, loading, error, setError } = useChangePassword();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess(false);
 
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -24,16 +20,12 @@ export default function EmployeeAccount() {
       return;
     }
 
-    setLoading(true);
     try {
-      await apiClient.patch('/api/users/changePassword', { password });
-      setSuccess(true);
+      await changePassword(password);
       setPassword('');
       setConfirmPassword('');
     } catch (err) {
-      setError(err.message || 'Error al cambiar la contraseña');
-    } finally {
-      setLoading(false);
+      // el hook ya guarda el error y muestra el toast; no hace falta hacer nada más aquí
     }
   };
 
@@ -49,13 +41,6 @@ export default function EmployeeAccount() {
           <Lock className="w-5 h-5" />
           Cambiar contraseña
         </h3>
-
-        {success && (
-          <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-2">
-            <CheckCircle className="w-4 h-4 text-green-400" />
-            <p className="text-sm text-green-300">Contraseña actualizada exitosamente</p>
-          </div>
-        )}
 
         {error && (
           <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">

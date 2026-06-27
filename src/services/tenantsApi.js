@@ -6,6 +6,8 @@ export const tenantsApi = {
   create: (barberName, memberShip, memberShipPrice) =>
     apiClient.post("/api/tenants", { barberName, memberShip, memberShipPrice }),
 
+  updateName: (barberName) => apiClient.patch('/api/tenants/barber-name', { barberName }),
+
   changeMembership: (id, membership) => {
     console.warn(
       "TODO: PATCH /api/tenants/{id}/membership no existe aún. Usando mock local.",
