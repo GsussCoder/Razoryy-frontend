@@ -51,12 +51,12 @@ const ALL_NAV_ITEMS = [
     icon: Package,
     feature: FEATURES.NAV_PRODUCTS,
   },
-  {
-    to: "/expenses",
-    label: "Gastos",
-    icon: Receipt,
-    feature: FEATURES.NAV_EXPENSES,
-  },
+  // {
+  //   to: "/expenses",
+  //   label: "Gastos",
+  //   icon: Receipt,
+  //   feature: FEATURES.NAV_EXPENSES,
+  // },
   {
     to: "/payments",
     label: "Registro de pagos",
@@ -119,7 +119,8 @@ export default function AdminLayout() {
           )}
           <div>
             <h1 className="text-lg font-bold text-white">
-              {branding.barberName}
+              Razoryy
+              {/* {branding.barberName} */}
             </h1>
             <p className="text-xs text-slate-400">Panel de Administrador</p>
           </div>

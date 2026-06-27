@@ -81,6 +81,7 @@ export default function ProductFormModal({
             Nombre del Producto
           </label>
           <input
+          placeholder="Cuchillas de hoja"
             type="text"
             name="productName"
             value={formData.productName}
@@ -95,6 +96,7 @@ export default function ProductFormModal({
             Descripción
           </label>
           <textarea
+          placeholder="Descripción del producto"
             name="description"
             value={formData.description}
             onChange={handleChange}

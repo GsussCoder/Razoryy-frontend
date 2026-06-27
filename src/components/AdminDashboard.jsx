@@ -19,7 +19,7 @@ export default function AdminDashboard() {
         <Route path="employees" element={<AdminEmployees />} />
         <Route path="services" element={<AdminServices />} />
         <Route path="products" element={<AdminProducts />} />
-        <Route path="expenses" element={<AdminExpenses />} />
+        {/* <Route path="expenses" element={<AdminExpenses />} /> */}
         <Route path="payments" element={<AdminPayments />} />
         <Route path="settings" element={<AdminSettings />} />
         {/* <Route path="account" element={<UserAccount />} /> */}

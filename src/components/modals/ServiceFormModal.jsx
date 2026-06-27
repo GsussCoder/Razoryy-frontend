@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { useBarberServices } from "../../hooks/useBarberServices";
 import Modal from "../ui/Modal";
 
-export default function ServiceFormModal({ isOpen, onClose, onSuccess, serviceToEdit }) {
+export default function ServiceFormModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  serviceToEdit,
+}) {
   const { createService, updateService } = useBarberServices();
   const [formData, setFormData] = useState({
     nameService: "",
@@ -57,9 +62,7 @@ export default function ServiceFormModal({ isOpen, onClose, onSuccess, serviceTo
 
       onSuccess?.();
       onClose();
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   };
 
   return (
@@ -75,6 +78,7 @@ export default function ServiceFormModal({ isOpen, onClose, onSuccess, serviceTo
           </label>
           <input
             type="text"
+            placeholder="Corte normal"
             name="nameService"
             value={formData.nameService}
             onChange={handleChange}
@@ -88,6 +92,7 @@ export default function ServiceFormModal({ isOpen, onClose, onSuccess, serviceTo
             Descripción
           </label>
           <textarea
+            placeholder="Descripcion del servicio"
             name="description"
             value={formData.description}
             onChange={handleChange}

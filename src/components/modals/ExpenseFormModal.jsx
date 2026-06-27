@@ -75,6 +75,7 @@ export default function ExpenseFormModal({ isOpen, onClose, onSuccess, products 
             Descripción
           </label>
           <input
+            placeholder="Compra de cuchillas"
             type="text"
             name="description"
             value={formData.description}
@@ -90,6 +91,7 @@ export default function ExpenseFormModal({ isOpen, onClose, onSuccess, products 
           </label>
           <input
             type="number"
+            placeholder="0"
             name="amount"
             value={formData.amount}
             onChange={handleChange}

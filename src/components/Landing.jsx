@@ -16,6 +16,7 @@ import {
   PackageCheck,
   ShieldCheck,
 } from "lucide-react";
+import RazoryyLogo from "../assets/logo.svg";
 
 export default function Landing() {
   const scrollToContact = () => {
@@ -29,10 +30,10 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <Scissors className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <img src={RazoryyLogo} alt="Logo de Razoryy" />
             </div>
-            <span className="text-lg font-bold text-white">BarberPro</span>
+            <span className="text-lg font-bold text-white">Razor<span className="text-indigo-400">yy</span></span>
           </div>
 
           {/* Botones */}
@@ -313,7 +314,7 @@ export default function Landing() {
       <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-slate-500 text-sm">
-            © 2026 BarberPro System por Clustsol. Todos los derechos reservados.
+            © 2026 Razoryy por Clustsol. Todos los derechos reservados.
           </p>
         </div>
       </footer>

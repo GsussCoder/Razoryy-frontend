@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Scissors, User, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiClient } from '../services/apiClient';
+import RazoryyLogo from "../assets/logo.svg";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -40,17 +41,17 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-600 mb-4 shadow-lg shadow-indigo-500/30">
-            <Scissors className="w-8 h-8 text-white" />
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg shadow-indigo-500/30">
+            <img src={RazoryyLogo} />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">BarberPro</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Razoryy</h1>
           <p className="text-slate-400">¿Ya tienes membresia?</p>
         </div>
 
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
           <h2 className="text-xl font-semibold text-white text-center">Iniciar Sesión</h2>
-          <p className="mb-6 text-center text-slate-400">¡Ingresa tus credenciales para acceder!</p>
+          <p className="mb-4 text-center text-slate-400">¡Ingresa tus credenciales para acceder!</p>
           
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
@@ -123,7 +124,7 @@ export default function Login() {
           </form>
         </div>
 
-        <p className="text-center text-slate-500 text-sm mt-8">
+        <p className="text-center text-slate-500 text-sm mt-4">
           © 2026 Clustsol - BarberPro System. Todos los derechos reservados.
         </p>
       </div>

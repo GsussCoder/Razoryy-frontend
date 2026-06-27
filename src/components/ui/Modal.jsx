@@ -53,15 +53,15 @@ export default function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
       
       {/* Modal content */}
-      <div className={`relative w-full ${sizeClasses[size]} bg-slate-800 border border-slate-700 rounded-xl shadow-2xl animate-in fade-in zoom-in duration-200`}>
+      <div className={`relative w-full ${sizeClasses[size]} max-h-[calc(100vh-2rem)] flex flex-col bg-slate-800 border border-slate-700 rounded-xl shadow-2xl animate-in fade-in zoom-in duration-200`}>
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 shrink-0">
             <h3 className="text-lg font-semibold text-white">{title}</h3>
             <button
               onClick={onClose}
@@ -73,7 +73,7 @@ export default function Modal({
         )}
 
         {/* Body */}
-        <div className="px-6 py-4">
+        <div className="px-6 py-4 overflow-y-auto">
           {children}
         </div>
       </div>

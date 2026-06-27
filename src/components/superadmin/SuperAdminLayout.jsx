@@ -38,8 +38,8 @@ export default function SuperAdminLayout() {
             <Shield className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">BarberPro SaaS</h1>
-            <p className="text-xs text-slate-400">Superadministrador</p>
+            <h1 className="text-lg font-bold text-white">Razoryy</h1>
+            <p className="text-xs text-slate-400">Super Administrador</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ export default function SuperAdminLayout() {
       <div className="flex">
         <aside
           className={`
-          fixed lg:sticky lg:top-[73px] inset-y-0 left-0 z-20 w-64 bg-slate-800 border-r border-slate-700 
+          fixed top-18 lg:sticky lg:top-[73px] inset-y-0 left-0 z-20 w-64 bg-slate-800 border-r border-slate-700 
           transform transition-transform duration-200 lg:transform-none lg:h-[calc(100vh-73px)]
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}

@@ -79,7 +79,8 @@ export default function EmployeeLayout() {
           )}
           <div>
             <h1 className="text-lg font-bold text-white">
-              {branding.barberName}
+              Razoryy
+              {/* {branding.barberName} */}
             </h1>
             <p className="text-xs text-slate-400">Panel de Empleado</p>
           </div>

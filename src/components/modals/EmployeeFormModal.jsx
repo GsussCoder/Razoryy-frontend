@@ -100,7 +100,7 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
             value={formData.user}
             onChange={handleChange}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="juan.perez"
+            placeholder="jperez"
             required
             disabled={registering}
           />
@@ -123,7 +123,7 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">
               Rol
@@ -174,19 +174,19 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
           </div>
         </div>
 
-        <div className="flex gap-3 pt-4">
+        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
           <button
             type="button"
             onClick={handleClose}
             disabled={registering}
-            className="flex-1 px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 disabled:opacity-50 text-sm font-medium transition-colors"
+            className="w-full sm:flex-1 px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 disabled:opacity-50 text-sm font-medium transition-colors"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={registering}
-            className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium transition-colors flex items-center justify-center gap-2"
+            className="w-full sm:flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium transition-colors flex items-center justify-center gap-2"
           >
             {registering ? (
               <>
