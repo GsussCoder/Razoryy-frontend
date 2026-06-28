@@ -184,7 +184,7 @@ export default function Landing() {
                 name: "Básico",
                 price: "20.000",
                 features: [
-                  "Hasta 2 empleados",
+                  "Hasta 2 usuarios",
                   "Gestión de barberos",
                   "Reportes básicos",
                   "Comisiones automaticas",
@@ -196,17 +196,17 @@ export default function Landing() {
                 price: "50.000",
                 popular: true,
                 features: [
-                  "Hasta 5 empleados",
+                  "Hasta 5 usuarios",
                   "Todo lo de Básico",
-                  "Sitio web público",
                   "Agendamiento de citas",
+                  "Sitio web para agendar citas",
                 ],
               },
               {
                 name: "Profesional",
                 price: "100.000",
                 features: [
-                  "Empleados ilimitados",
+                  "Usuarios ilimitados",
                   "Todo lo de Estandar",
                   "Multi-sucursal",
                   "Reportes avanzados",
