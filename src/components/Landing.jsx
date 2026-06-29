@@ -14,6 +14,7 @@ import {
   Globe,
   ArrowDown,
   PackageCheck,
+  Loader2,
   ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
