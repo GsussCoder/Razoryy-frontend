@@ -17,10 +17,44 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import RazoryyLogo from "../assets/logo.svg";
+import { apiClient } from "../services/apiClient";
+import { useToast } from "../contexts/ToastContext";
 
 export default function Landing() {
+  const { showSuccess, showError } = useToast();
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    from: "",
+    message: "",
+  });
+  const [sending, setSending] = useState(false);
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleContactChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmitContactForm = async (e) => {
+    e.preventDefault();
+    setSending(true);
+
+    try {
+      await apiClient.post("/api/v1/emails/contact", contactForm);
+      showSuccess(
+        "¡Mensaje enviado correctamente! \nPronto nos pondremos en contacto contigo.",
+      );
+      setContactForm({ name: "", from: "", message: "" });
+    } catch (err) {
+      showError(
+        err.message ||
+          "¡Ups! No se ha podido enviar el correo, inténtalo más tarde.",
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -33,7 +67,9 @@ export default function Landing() {
             <div className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center">
               <img src={RazoryyLogo} alt="Logo de Razoryy" />
             </div>
-            <span className="text-lg font-bold text-white">Razor<span className="text-indigo-400">yy</span></span>
+            <span className="text-lg font-bold text-white">
+              Razor<span className="text-indigo-400">yy</span>
+            </span>
           </div>
 
           {/* Botones */}
@@ -271,23 +307,77 @@ export default function Landing() {
               Contactanos
             </h2>
             <p className="text-lg text-slate-400">
-              Lleva tu negocio a otro nivel y empieza a automatizar
-              hoy mismo.
+              Lleva tu negocio a otro nivel y empieza a automatizar hoy mismo.
             </p>
           </div>
 
           <div className="mx-auto max-w-md bg-slate-800 rounded-xl p-6">
-            <form  className="space-y-4">
-              {/* <h2 className="text-2xl text-center" >Mensaje directo</h2> */}
-              <label className="ml-2">Nombre</label>
-              <input type="text" placeholder="Nombre" className="w-full bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
-              <label className="ml-2">Correo electrónico</label>
-              <input type="email" placeholder="example@gmail.com" className="w-full bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
-              <label className="ml-2">Asunto</label>
-              <textarea placeholder="¡Hola! Estoy interesado en automatizar mi local." className="w-full h-30 bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
-              <button className="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all cursor-pointer">Enviar mensaje</button>
+            <form onSubmit={onSubmitContactForm} className="space-y-4">
+              <div>
+                <label htmlFor="contact-name" className="ml-2">
+                  Nombre
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  name="name"
+                  value={contactForm.name}
+                  onChange={handleContactChange}
+                  placeholder="Nombre"
+                  required
+                  disabled={sending}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:opacity-50"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="contact-from" className="ml-2">
+                  Correo electrónico
+                </label>
+                <input
+                  id="contact-from"
+                  type="email"
+                  name="from"
+                  value={contactForm.from}
+                  onChange={handleContactChange}
+                  placeholder="example@gmail.com"
+                  required
+                  disabled={sending}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:opacity-50"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="contact-message" className="ml-2">
+                  Mensaje
+                </label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  value={contactForm.message}
+                  onChange={handleContactChange}
+                  placeholder="¡Hola! Estoy interesado en automatizar mi local."
+                  required
+                  disabled={sending}
+                  className="w-full h-30 bg-slate-900 border border-slate-700 rounded-lg mt-1.5 p-2 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all disabled:opacity-50"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={sending}
+                className="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-600/50 text-white font-semibold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
+              >
+                {sending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  "Enviar mensaje"
+                )}
+              </button>
             </form>
-            
           </div>
 
           {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
