@@ -16,6 +16,7 @@ import {
   PackageCheck,
   ShieldCheck,
 } from "lucide-react";
+import { useState } from "react";
 import RazoryyLogo from "../assets/logo.svg";
 import { apiClient } from "../services/apiClient";
 import { useToast } from "../contexts/ToastContext";
