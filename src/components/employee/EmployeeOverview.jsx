@@ -71,7 +71,7 @@ export default function EmployeeOverview() {
       icon: Calendar,
       label: "Ver citas",
       color: "bg-blue-600",
-      onClick: () => navigate("/appointments"),
+      onClick: () => navigate("/agenda"),
       feature: FEATURES.NAV_APPOINTMENTS,
     },
   ].filter((action) => !action.feature || can(action.feature));

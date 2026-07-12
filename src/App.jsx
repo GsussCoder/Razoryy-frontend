@@ -77,7 +77,7 @@ function App() {
 
           {/* Rutas admin */}
           <Route
-            path="/appointments"
+            path="/agenda"
             element={
               <ProtectedRoute requiredFeature={FEATURES.NAV_APPOINTMENTS}>
                 <AdminAppointments />
