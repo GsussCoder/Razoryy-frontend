@@ -38,7 +38,7 @@ export function Header({ scrollToContact, scrollToPrice }) {
             Soy barbero
           </a>
           <a
-            href="/login"
+            href="/register"
             className="px-4 py-2 bg-indigo-600 active:bg-indigo-800 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg inline-flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:shadow-indigo-500/30"
           >
             Prueba gratis 20 días

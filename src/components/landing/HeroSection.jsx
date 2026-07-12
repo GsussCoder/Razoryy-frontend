@@ -17,7 +17,7 @@ export function HeroSection({ scrollToContact }) {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="/login"
+            href="/register"
             className="bg-indigo-600 active:bg-indigo-800 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg inline-flex items-center justify-center gap-2 px-6 py-3  transition-all hover:shadow-lg hover:shadow-indigo-500/30"
           >
             Prueba gratis 20 días

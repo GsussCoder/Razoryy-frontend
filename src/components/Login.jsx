@@ -19,7 +19,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
+    <main className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg shadow-indigo-500/30">
@@ -108,6 +108,6 @@ export default function Login() {
           © 2026 Razoryy por Clustsol. Todos los derechos reservados.
         </p>
       </div>
-    </div>
+    </main>
   );
 }

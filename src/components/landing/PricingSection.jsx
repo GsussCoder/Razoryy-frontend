@@ -191,7 +191,7 @@ export function PricingSection({ scrollToContact }) {
                       }}
                     >
                       <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
-                      <span className="text-sm text-slate-300 border-b border-dotted border-slate-600 pb-0.5 leading-tight select-none cursor-pointer inline">
+                      <span className="text-sm text-slate-300 border-b border-dotted border-slate-600 pb-0.5 leading-tight select-none cursor-pointer inline md:hover:text-slate-100">
                         {feature.text}{" "}
                         <Info className="w-3.5 h-3.5 text-slate-400 inline align-text-top ml-0.5" />
                       </span>
@@ -208,7 +208,7 @@ export function PricingSection({ scrollToContact }) {
               </ul>
 
               <a
-                onClick={scrollToContact}
+                href="/register"
                 className={`block text-center py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
                   plan.popular
                     ? "bg-indigo-600 hover:bg-indigo-700 text-white"

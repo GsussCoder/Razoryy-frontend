@@ -3,6 +3,7 @@ import { useAuth } from './contexts/AuthContext';
 import { FEATURES } from './config/permissions';
 import Landing from './components/Landing';
 import Login from './components/Login';
+import Register from  './components/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Layouts
@@ -60,6 +61,7 @@ function App() {
         {/* Rutas públicas */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Rutas protegidas — todas usan el mismo layout dinámico */}
         <Route
