@@ -39,7 +39,7 @@ export default function RecentPaymentsTable({ payments = [], limit = 5 }) {
   return (
     <div className="bg-slate-800 rounded-xl border border-slate-700 shadow-sm p-4">
       <h3 className="text-sm font-semibold text-slate-300 mb-3">
-        Últimos cortes realizados
+        Últimos servicios realizados
       </h3>
       <DataTable
         data={recent}

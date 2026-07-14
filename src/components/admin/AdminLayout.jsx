@@ -28,14 +28,14 @@ const TOP_NAV_ITEMS = [
     feature: null,
   },
   {
-    to: "/appointments",
+    to: "/agenda",
     label: "Citas",
     icon: Calendar,
     feature: FEATURES.NAV_APPOINTMENTS,
   },
   {
     to: "/employees",
-    label: "Empleados",
+    label: "Barberos",
     icon: Users,
     feature: FEATURES.NAV_EMPLOYEES,
   },

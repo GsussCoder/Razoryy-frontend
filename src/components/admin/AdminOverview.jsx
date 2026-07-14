@@ -19,6 +19,7 @@ import { useAppointments } from "../../hooks/useAppointments";
 import { EmployeeFormModal } from "../modals/EmployeeFormModal";
 import { PaymentFormModal } from "../modals/PaymentFormModal";
 import RecentPaymentsTable from "../ui/RecentPaymentsTable";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function AdminOverview() {
   const { refetch, data: users, isLoading, error } = useEmployees();
@@ -26,6 +27,7 @@ export default function AdminOverview() {
   const { data: appointments } = useAppointments();
   const { data: payments, createPayment } = usePayments();
   const { can } = usePermissions();
+  const navigate = useNavigate();
   const [showFormModalEmployee, setShowFormModalEmployee] = useState(false);
   const [showPaymentFormModal, setShowPaymentFormModal] = useState(false);
   const activeEmployees = users.filter((user) => user.isActive).length;
@@ -48,14 +50,14 @@ export default function AdminOverview() {
   const statCards = [
     {
       icon: Calendar,
-      label: "Citas hoy",
+      label: "Citas pendientes",
       value: todayAppointments,
       color: "bg-blue-500",
       feature: FEATURES.NAV_APPOINTMENTS,
     },
     {
       icon: Scissors,
-      label: "Cortes realizados hoy",
+      label: "Servicios realizados hoy",
       value: todayHaircuts.length,
       color: "bg-red-500",
       feature: FEATURES.VIEW_INCOME_STATS,
@@ -69,7 +71,7 @@ export default function AdminOverview() {
     },
     {
       icon: Users,
-      label: "Empleados activos",
+      label: "Barberos activos",
       value: activeEmployees,
       color: "bg-purple-500",
       feature: null,
@@ -93,7 +95,7 @@ export default function AdminOverview() {
     },
     {
       icon: Plus,
-      label: "Nuevo empleado",
+      label: "Nuevo barbero",
       color: "bg-indigo-600",
       onClick: () => setShowFormModalEmployee(true),
       feature: FEATURES.MANAGE_EMPLOYEES,
@@ -102,7 +104,7 @@ export default function AdminOverview() {
       icon: Calendar,
       label: "Ver citas",
       color: "bg-blue-600",
-      onClick: () => console.log("CLIC CITAS"),
+      onClick: () => navigate("/agenda"),
       feature: FEATURES.NAV_APPOINTMENTS,
     },
   ].filter((action) => !action.feature || can(action.feature));
@@ -130,7 +132,7 @@ export default function AdminOverview() {
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         <div className="order-2 lg:order-1 lg:flex-1 space-y-4 lg:space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
             {statCards.map((stat, idx) => (
               <div
                 key={idx}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authApi } from "../services/authApi";
+import { usersApi } from "../services/usersApi";
 import { useToast } from "../contexts/ToastContext";
 
 export function useRegisterEmployee() {
@@ -7,28 +7,28 @@ export function useRegisterEmployee() {
   const [registering, setRegistering] = useState(false);
   const [registerError, setRegisterError] = useState(null);
 
-  const register = async ({ tenantId, name, user, password, role, payoutRate, isActive }) => {
+  const register = async ({ name, number, email, password, payoutRate }) => {
     setRegistering(true);
     setRegisterError(null);
 
     try {
-      const created = await authApi.register({
-        tenantId,
+      const created = await usersApi.createBarber(
         name,
-        user,
+        number,
+        email,
         password,
-        role,
         payoutRate,
-        isActive
-      });
+      );
 
-      showSuccess("Usuario registrado correctamente.")
-      
+      showSuccess("Barbero registrado correctamente.");
+
       return created;
     } catch (err) {
       setRegisterError(err.message);
       // showError(err.message);
-      showError("Tu plan actual permite 2 usuarios activos. Desactiva o mejora tu plan.");
+      showError(
+        "Tu plan actual permite 1 barbero activo. Desactiva otro barbero o mejora tu plan.",
+      );
       throw err;
     } finally {
       setRegistering(false);

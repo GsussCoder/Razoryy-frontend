@@ -7,13 +7,11 @@ import Modal from "../ui/Modal";
 export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
   const { register, registering } = useRegisterEmployee();
   const [formData, setFormData] = useState({
-    // tenantId: null,
     name: "",
-    user: "",
+    number: "",
+    email: "",
     password: "",
-    role: "EMPLOYEE",
     payoutRate: 50,
-    isActive: false,
   });
 
   const handleChange = (e) => {
@@ -26,22 +24,19 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
 
     try {
       await register({
-        // tenantId: formData.tenantId,
         name: formData.name,
-        user: formData.user,
+        number: formData.number,
+        email: formData.email,
         password: formData.password,
-        role: formData.role,
         payoutRate: Number(formData.payoutRate),
-        isActive: Boolean(formData.isActive),
       });
 
       setFormData({
         name: "",
-        user: "",
+        number: "",
+        email: "",
         password: "",
-        role: "EMPLOYEE",
         payoutRate: 50,
-        isActive: true,
       });
 
       onSuccess?.();
@@ -56,11 +51,10 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
     if (!registering) {
       setFormData({
         name: "",
-        user: "",
+        number: "",
+        email: "",
         password: "",
-        role: "EMPLOYEE",
         payoutRate: 50,
-        isActive: true,
       });
       onClose();
     }
@@ -70,7 +64,7 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="Nuevo empleado"
+      title="Nuevo barbero"
       size="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,15 +86,15 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
 
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-1">
-            Usuario
+            Email
           </label>
           <input
-            type="text"
-            name="user"
-            value={formData.user}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-            placeholder="jperez"
+            placeholder="juanperez@gmail.com"
             required
             disabled={registering}
           />
@@ -123,23 +117,22 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">
-              Rol
+              Número
             </label>
-            <select
-              name="role"
-              value={formData.role}
+            <input
+              type="text"
+              name="number"
+              value={formData.number}
               onChange={handleChange}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              placeholder="123 456 7890"
+              required
               disabled={registering}
-            >
-              <option value="EMPLOYEE">Empleado</option>
-              <option value="ADMIN">Administrador</option>
-            </select>
+            />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">
               Comisión (%)
@@ -156,22 +149,6 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
               disabled={registering}
             />
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
-              Estado
-            </label>
-            <select
-              name="isActive"
-              value={formData.isActive}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-              disabled={registering}
-            >
-              <option value="true">Activo</option>
-              <option value="false">Inactivo</option>
-            </select>
-          </div>
         </div>
 
         <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
@@ -179,14 +156,14 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
             type="button"
             onClick={handleClose}
             disabled={registering}
-            className="w-full sm:flex-1 px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 disabled:opacity-50 text-sm font-medium transition-colors"
+            className="w-full sm:flex-1 px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 disabled:opacity-50 text-sm font-medium transition-colors cursor-pointer"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={registering}
-            className="w-full sm:flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium transition-colors flex items-center justify-center gap-2"
+            className="w-full sm:flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             {registering ? (
               <>
@@ -194,7 +171,7 @@ export function EmployeeFormModal({ isOpen, onClose, onSuccess }) {
                 Creando...
               </>
             ) : (
-              "Crear empleado"
+              "Crear barbero"
             )}
           </button>
         </div>

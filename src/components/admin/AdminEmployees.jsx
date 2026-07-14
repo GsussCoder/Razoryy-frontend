@@ -17,7 +17,8 @@ export default function AdminEmployees() {
 
   const columns = [
     { header: "Nombre", accessor: "name" },
-    { header: "Usuario", accessor: "user" },
+    { header: "Email", accessor: "email" },
+    { header: "Número", accessor: "number" },
     {
       header: "Cargo",
       accessor: "rol",
@@ -79,7 +80,7 @@ export default function AdminEmployees() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white">Empleados</h2>
+        <h2 className="text-2xl font-bold text-white">Barberos</h2>
         <p className="text-slate-400">Gestiona el personal de tu barbería</p>
       </div>
 
@@ -89,7 +90,7 @@ export default function AdminEmployees() {
           columns={columns}
           itemsPerPage={6}
           searchable={true}
-          searchPlaceholder="Buscar empleados..."
+          searchPlaceholder="Buscar barbero..."
           searchFields={["name", "user", "rol"]}
           emptyMessage={
             isLoading ? "Cargando..." : "No hay empleados registrados"
@@ -101,7 +102,7 @@ export default function AdminEmployees() {
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                Nuevo empleado
+                Nuevo barbero
               </button>
             )
           }
