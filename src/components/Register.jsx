@@ -11,6 +11,7 @@ import { apiClient } from "../services/apiClient";
 import { useToast } from "../contexts/ToastContext";
 import { useDetectLocation } from "../hooks/useDetectLocation";
 import RazoryyLogo from "../assets/logo.svg";
+import { useRegister } from "../hooks/useRegister";
 
 const MEMBERSHIP_PLANS = [
   {
@@ -44,13 +45,13 @@ const INITIAL_STATE = {
   number: "",
   email: "",
   password: "",
-  confirmPassword: "",
-  role: "ADMIN",
+  confirmPassword: ""
 };
 
 export default function Register() {
   const navigate = useNavigate();
   const { showError, showSuccess } = useToast();
+  const { register, isLoading, error } = useRegister();
   const { detect, detecting, locationError } = useDetectLocation();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(INITIAL_STATE);
@@ -132,7 +133,15 @@ export default function Register() {
     setSubmitting(true);
     try {
       const { confirmPassword, ...payload } = formData;
-      await apiClient.post("/api/v1/register", payload);
+      await register(
+        payload.barberName,
+        payload.locationData,
+        payload.membership,
+        payload.name,
+        payload.number,
+        payload.email,
+        payload.password,
+      );
       showSuccess("¡Barbería registrada! Ya puedes iniciar sesión.");
       navigate("/login");
     } catch (err) {
@@ -259,7 +268,7 @@ export default function Register() {
                           </span>
                           {plan.popular && (
                             <span className="px-1.5 py-0.5 bg-indigo-600 text-white text-xs rounded-full font-medium">
-                              Popular
+                              Plan independiente
                             </span>
                           )}
                         </div>
