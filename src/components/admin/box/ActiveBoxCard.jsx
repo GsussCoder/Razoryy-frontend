@@ -4,7 +4,7 @@ export function ActiveBoxCard({ box, onViewDetails, onClose, fmt, fmtDate, fmtTi
   if (!box) return null;
 
   return (
-    <div className="bg-slate-800 rounded-xl border border-green-500/30 p-4 lg:p-5 mb-6">
+    <div className="bg-slate-800 rounded-xl border border-slate-700 p-4 lg:p-5 mb-6">
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5 shrink-0 mt-0.5">

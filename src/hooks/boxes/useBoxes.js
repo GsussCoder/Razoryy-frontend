@@ -11,8 +11,10 @@ export function useBoxes() {
 
   const fetchData = async () => {
     setIsLoading(true);
+
     try {
       const response = await boxesApi.getAll();
+      
       setData(response);
     } catch (err) {
       showError("Error al cargar cajas. ", err);

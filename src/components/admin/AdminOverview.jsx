@@ -20,16 +20,29 @@ import { EmployeeFormModal } from "../modals/EmployeeFormModal";
 import { PaymentFormModal } from "../modals/PaymentFormModal";
 import RecentPaymentsTable from "../ui/RecentPaymentsTable";
 import { Navigate, useNavigate } from "react-router-dom";
+import { BoxStatusBanner } from "./box/BoxStatusBanner";
+import { useBoxes } from "../../hooks/boxes/useBoxes";
+import ConfirmModal from "../modals/ConfirmModal";
+import BoxCloseModal from "./box/BoxCloseModal";
 
 export default function AdminOverview() {
-  const { refetch, data: users, isLoading, error } = useEmployees();
+  const { can } = usePermissions();
+  const {
+    data: users,
+    isLoading,
+    error,
+    refetch: refetchEmployee,
+  } = useEmployees();
   const { data: services } = useBarberServices();
   const { data: appointments } = useAppointments();
   const { data: payments, createPayment } = usePayments();
-  const { can } = usePermissions();
+  const { data: boxes, refetch: refetchBox, openBox, closeBox } = useBoxes();
   const navigate = useNavigate();
   const [showFormModalEmployee, setShowFormModalEmployee] = useState(false);
   const [showPaymentFormModal, setShowPaymentFormModal] = useState(false);
+  const [showOpenBoxModal, setShowOpenBoxModal] = useState(false);
+  const [showCloseBoxModal, setShowCloseBoxModal] = useState(false);
+  const activeBox = boxes.find((box) => box.status === "OPEN") ?? null;
   const activeEmployees = users.filter((user) => user.isActive).length;
   const todayHaircuts = payments.filter((payment) => {
     const today = new Date();
@@ -88,7 +101,7 @@ export default function AdminOverview() {
   const quickActions = [
     {
       icon: DollarSign,
-      label: "Registrar pago",
+      label: "Registrar pago rápido",
       color: "bg-green-600",
       onClick: () => setShowPaymentFormModal(true),
       feature: FEATURES.NAV_PAYMENTS,
@@ -109,6 +122,12 @@ export default function AdminOverview() {
     },
   ].filter((action) => !action.feature || can(action.feature));
 
+  const confirmOpenBox = () => {
+    openBox();
+    refetchBox();
+    setShowOpenBoxModal(false);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -127,6 +146,17 @@ export default function AdminOverview() {
       {error && (
         <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
           <p className="text-sm text-red-400">{error}</p>
+        </div>
+      )}
+
+      {can(FEATURES.NAV_BOXES) && (
+        <div className="mb-4 lg:mb-6">
+          <BoxStatusBanner
+            activeBox={activeBox}
+            onOpen={() => setShowOpenBoxModal(true)}
+            onClose={() => setShowCloseBoxModal(true)}
+            navitageToDetails={() => navigate("/boxes")}
+          />
         </div>
       )}
 
@@ -163,10 +193,28 @@ export default function AdminOverview() {
         </div>
       </div>
 
+      <ConfirmModal
+        isOpen={showOpenBoxModal}
+        onClose={() => setShowOpenBoxModal(false)}
+        onConfirm={confirmOpenBox}
+        itemName={"abrir nueva caja"}
+      />
+
+      <BoxCloseModal
+        isOpen={showCloseBoxModal}
+        onClose={() => setShowCloseBoxModal(false)}
+        onConfirm={async (actualCash) => {
+          await closeBox(activeBox.id, actualCash);
+          await refetchBox();
+          setShowCloseBoxModal(false);
+        }}
+        box={activeBox}
+      />
+
       <EmployeeFormModal
         isOpen={showFormModalEmployee}
         onClose={() => setShowFormModalEmployee(false)}
-        onSuccess={refetch}
+        onSuccess={refetchEmployee}
       />
 
       <PaymentFormModal

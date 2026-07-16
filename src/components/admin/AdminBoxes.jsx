@@ -66,9 +66,9 @@ export default function AdminBoxes() {
     setShowCloseModal(true);
   };
 
-  const confirmOpenBox = () => {
-    openBox();
-    refetch();
+  const confirmOpenBox = async () => {
+    await openBox();
+    await refetch();
     setShowOpenModal(false);
   };
 
@@ -135,7 +135,7 @@ export default function AdminBoxes() {
         {!activeBox && (
           <button
             onClick={() => setShowOpenModal(true)}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Abrir caja
