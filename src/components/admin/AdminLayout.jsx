@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   User,
+  Archive,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBranding } from "../../contexts/BrandingContext";
@@ -56,6 +57,12 @@ const TOP_NAV_ITEMS = [
     label: "Registro de pagos",
     icon: DollarSign,
     feature: FEATURES.NAV_PAYMENTS,
+  },
+  {
+    to: "/boxes",
+    label: "Registro de cajas",
+    icon: Archive,
+    feature: FEATURES.NAV_BOXES,
   },
 ];
 

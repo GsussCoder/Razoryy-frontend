@@ -21,6 +21,7 @@ import AdminServices from './components/admin/AdminServices';
 import AdminProducts from './components/admin/AdminProducts';
 import AdminExpenses from './components/admin/AdminExpenses';
 import AdminPayments from './components/admin/AdminPayments';
+import AdminBoxes from './components/admin/AdminBoxes';
 import AdminSettings from './components/admin/AdminSettings';
 
 // Vistas employee
@@ -121,6 +122,14 @@ function App() {
             element={
               <ProtectedRoute requiredFeature={FEATURES.NAV_PAYMENTS}>
                 <AdminPayments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/boxes"
+            element={
+              <ProtectedRoute requiredFeature={FEATURES.NAV_BOXES}>
+                <AdminBoxes />
               </ProtectedRoute>
             }
           />
