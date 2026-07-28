@@ -1,18 +1,22 @@
-// hooks/useAppointments.js
 import { useState, useEffect, useCallback } from 'react';
 import { appointmentsApi } from '../services/appointmentsApi';
 import { useToast } from '../contexts/ToastContext';
 
-export function useAppointments() {
+export function useAppointments(options = {}) {
   const { showSuccess, showError } = useToast();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const role = options.role || 'ADMIN';
+
   const refetch = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await appointmentsApi.getAll();
+      const response = role === 'EMPLOYEE'
+        ? await appointmentsApi.getMyAppointments()
+        : await appointmentsApi.getAll();
+
       setData(response);
       setError(null);
     } catch (err) {
@@ -21,7 +25,7 @@ export function useAppointments() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [role, showError]);
 
   useEffect(() => {
     refetch();
@@ -84,5 +88,15 @@ export function useAppointments() {
     }
   };
 
-  return { data, isLoading, error, refetch, createAppointment, updateAppointment, confirmAppointment, cancelAppointment, completeAppointment };
+  return {
+    data,
+    isLoading,
+    error,
+    refetch,
+    createAppointment,
+    updateAppointment,
+    confirmAppointment,
+    cancelAppointment,
+    completeAppointment,
+  };
 }

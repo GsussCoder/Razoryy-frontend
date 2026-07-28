@@ -44,7 +44,7 @@ export function BoxDetailModal({ isOpen, onClose, box, fmt, fmtDate, fmtTime, ST
               { label: "Diferencia en efectivo",value: fmt(box.cashDifference), highlight: box.cashDifference < 0 ? "text-red-400" : "text-green-400" },
               { label: "Efectivo real", value: fmt(box.actualCash) },
               { label: "Pagos digitales", value: fmt(box.digitalPaymentsTotal), highlight: "text-indigo-400" },
-              { label: "Total", value: fmt(box.actualCash + box.digitalPaymentsTotal) },
+              { label: "Total", value: fmt(box.estimatedCash + box.digitalPaymentsTotal) },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between">
                 <span className="text-sm text-slate-400">{row.label}</span>

@@ -6,6 +6,6 @@ export const usersApi = {
     apiClient.post("/api/users", { name, number, email, password, payoutRate }),
   getAllUsers: () => apiClient.get("/api/users/all"),
   changePassword: (password) =>
-    apiClient.patch("/api/users/changePassword", { password }),
-  changeUserState: (id) => apiClient.patch(`/api/users/changeUserState/${id}`),
+    apiClient.patch("/api/users/change-password", { password }),
+  changeUserState: (id) => apiClient.patch(`/api/users/${id}/change-state`),
 };

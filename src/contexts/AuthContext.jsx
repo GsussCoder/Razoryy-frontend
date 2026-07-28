@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (apiResponse) => {
-    const { id, token, name, user: username, role, isActive, tenantId, barberName, membership } = apiResponse;
+    const { id, token, name, user: username, role, isActive, tenantId, barberName, membership, barberSlug } = apiResponse;
     
     // Normalizar rol
     const normalizedRole = ROLE_MAP[role] || role.toLowerCase();
@@ -50,6 +50,7 @@ export function AuthProvider({ children }) {
       tenantId: tenantId || null,
       barberName: barberName,
       membership: normalizedMembership,
+      barberSlug: barberSlug
     };
 
     setToken(token);

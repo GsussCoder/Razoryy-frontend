@@ -1,87 +1,105 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './contexts/AuthContext';
-import { FEATURES } from './config/permissions';
-import Landing from './components/Landing';
-import Login from './components/Login';
-import Register from  './components/Register';
-import ProtectedRoute from './components/ProtectedRoute';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import { FEATURES } from "./config/permissions";
+import { NAVIGATION_BY_ROLE } from "./config/navigationConfig";
+import Landing from "./components/Landing";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Booking from "./components/booking/Booking";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AppLayout from "./layout/AppLayout";
+import UserAccount from "./components/UserAccount";
+import TicketsPage from "./components/tickets/TicketsPage";
+import AppointmentsPage from "./components/appointments/AppointmentsPage";
+import AdminOverview from "./components/admin/AdminOverview";
+import AdminEmployees from "./components/admin/AdminEmployees";
+import AdminServices from "./components/admin/AdminServices";
+import AdminProducts from "./components/admin/AdminProducts";
+import AdminExpenses from "./components/admin/AdminExpenses";
+import AdminPayments from "./components/admin/AdminPayments";
+import AdminBoxes from "./components/admin/AdminBoxes";
+import AdminSettings from "./components/admin/AdminSettings";
+import EmployeeOverview from "./components/employee/EmployeeOverview";
+import EmployeeRegisterPayment from "./components/employee/EmployeeRegisterPayment";
+import EmployeeMyPayments from "./components/employee/EmployeeMyPayments";
+import SuperAdminMetrics from "./components/superadmin/SuperAdminMetrics";
+import SuperAdminTenants from "./components/superadmin/SuperAdminTenants";
+import SuperAdminUsers from "./components/superadmin/SuperAdminUsers";
+import AdminReports from "./components/admin/AdminReports";
 
-// Layouts
-import AdminLayout from './components/admin/AdminLayout';
-import EmployeeLayout from './components/employee/EmployeeLayout';
-import SuperAdminLayout from './components/superadmin/SuperAdminLayout';
-
-import UserAccount from './components/UserAccount';
-
-// Vistas admin
-import AdminOverview from './components/admin/AdminOverview';
-import AdminAppointments from './components/admin/AdminAppointments';
-import AdminEmployees from './components/admin/AdminEmployees';
-import AdminServices from './components/admin/AdminServices';
-import AdminProducts from './components/admin/AdminProducts';
-import AdminExpenses from './components/admin/AdminExpenses';
-import AdminPayments from './components/admin/AdminPayments';
-import AdminBoxes from './components/admin/AdminBoxes';
-import AdminSettings from './components/admin/AdminSettings';
-
-// Vistas employee
-import EmployeeAgenda from './components/employee/EmployeeAgenda';
-import EmployeeOverview from './components/employee/EmployeeOverview';
-import EmployeeRegisterPayment from './components/employee/EmployeeRegisterPayment';
-import EmployeeMyPayments from './components/employee/EmployeeMyPayments';
-
-// Vistas superadmin
-import SuperAdminMetrics from './components/superadmin/SuperAdminMetrics';
-import SuperAdminTenants from './components/superadmin/SuperAdminTenants';
-import SuperAdminUsers from './components/superadmin/SuperAdminUsers';
-
-// Decide qué vista raíz mostrar según el rol del usuario
-function DashboardRouter() {
+function DashboardView() {
   const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role === 'admin')      return <AdminOverview />;
-  if (user.role === 'employee')   return <EmployeeOverview />;
-  if (user.role === 'superadmin') return <SuperAdminMetrics />;
+  if (user?.role === "admin") return <AdminOverview />;
+  if (user?.role === "employee") return <EmployeeOverview />;
+  if (user?.role === "superadmin") return <SuperAdminMetrics />;
   return <Navigate to="/login" replace />;
 }
 
-// Decide qué layout envuelve las rutas según el rol del usuario
-function LayoutRouter() {
+function RoleBasedLayout() {
   const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role === 'admin')      return <AdminLayout />;
-  if (user.role === 'employee')   return <EmployeeLayout />;
-  if (user.role === 'superadmin') return <SuperAdminLayout />;
-  return <Navigate to="/login" replace />;
+  const config = NAVIGATION_BY_ROLE[user?.role] || NAVIGATION_BY_ROLE.employee;
+
+  return (
+    <AppLayout
+      topNavConfig={config.top}
+      bottomNavConfig={config.bottom}
+      roleLabel={config.roleLabel}
+    />
+  );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Rutas públicas */}
+        {/* Rutas Públicas */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/booking/:barberSlug" element={<Booking />} />
 
-        {/* Rutas protegidas — todas usan el mismo layout dinámico */}
+        {/* Rutas Protegidas en Layout */}
         <Route
           element={
             <ProtectedRoute>
-              <LayoutRouter />
+              <RoleBasedLayout />
             </ProtectedRoute>
           }
         >
-          {/* Ruta raíz del dashboard — despacha por rol */}
-          <Route path="/dashboard" element={<DashboardRouter />} />
-          <Route path="/account" element={<UserAccount />} />
-
-          {/* Rutas admin */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <UserAccount />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assigns"
+            element={
+              <ProtectedRoute>
+                <TicketsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/agenda"
             element={
-              <ProtectedRoute requiredFeature={FEATURES.NAV_APPOINTMENTS}>
-                <AdminAppointments />
+              <ProtectedRoute>
+                <AppointmentsPage />
               </ProtectedRoute>
             }
           />
@@ -98,6 +116,14 @@ function App() {
             element={
               <ProtectedRoute requiredFeature={FEATURES.NAV_SERVICES}>
                 <AdminServices />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute requiredFeature={FEATURES.NAV_SERVICES}>
+                <AdminReports />
               </ProtectedRoute>
             }
           />
@@ -142,16 +168,14 @@ function App() {
             }
           />
 
-          {/* Rutas employee */}
-          <Route path="/agenda" element={
-            <ProtectedRoute requiredFeature={FEATURES.NAV_APPOINTMENTS}>
-              <EmployeeAgenda />
-            </ProtectedRoute>
-          } />
-          <Route path="/register-payment" element={<EmployeeRegisterPayment />} />
+          {/* Rutas Employee */}
+          <Route
+            path="/register-payment"
+            element={<EmployeeRegisterPayment />}
+          />
           <Route path="/my-payments" element={<EmployeeMyPayments />} />
-          
-          {/* Rutas superadmin */}
+
+          {/* Rutas SuperAdmin */}
           <Route
             path="/metrics"
             element={
@@ -178,11 +202,8 @@ function App() {
           />
         </Route>
 
-        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
 }
-
-export default App;

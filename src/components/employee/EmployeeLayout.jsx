@@ -30,6 +30,7 @@ const TOP_NAV_ITEMS = [
     feature: FEATURES.NAV_APPOINTMENTS,
   },
   { to: "/my-payments", label: "Mis pagos", icon: Wallet, feature: null },
+  { to: "/assigns", label: "Registros", icon: Wallet, feature: null },
 ];
 
 const BOTTOM_NAV_ITEMS = [

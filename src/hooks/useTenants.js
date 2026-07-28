@@ -1,6 +1,5 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { tenantsApi } from "../services/tenantsApi";
-import { authApi } from "../services/authApi";
 import { useToast } from "../contexts/ToastContext";
 
 export function useTenants() {
@@ -18,7 +17,7 @@ export function useTenants() {
 
       setData(response);
     } catch (err) {
-      setError(err.message || "Error al cargar empleados.");
+      setError(err.message || "Error al cargar las barberías.");
     } finally {
       setIsLoading(false);
     }
@@ -32,21 +31,31 @@ export function useTenants() {
     setTogglingId(id);
 
     try {
-      // BLINDAR PARA NO AUTO DESACTIVARSE
-      await usersApi.changeUserState(id);
+      await tenantsApi.changeState(id);
       await refetch();
-      showSuccess("Estado del usuario cambiado correctamente.")
-    } catch(err) {
-      showError("Tu plan actual permite 2 usuarios activos. Desactiva o mejora tu plan.")
-      // showError(err.message || "No se pudo cambiar el estado del empleado.");
+      showSuccess("Estado de la barbería actualizado correctamente.");
+    } catch (err) {
+      showError(err.message || "No se pudo cambiar el estado de la barbería.");
     } finally {
       setTogglingId(null);
     }
-  }
+  };
+
+  const changeMembership = async (id, membership) => {
+    try {
+      await tenantsApi.changeMembership(id, membership);
+      await refetch();
+      showSuccess("Membresía actualizada correctamente.");
+    } catch (err) {
+      showError(err.message || "No se pudo actualizar la membresía.");
+      throw err;
+    }
+  };
 
   return {
     refetch,
     changeState,
+    changeMembership,
     data,
     isLoading,
     error,

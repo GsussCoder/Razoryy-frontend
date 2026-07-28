@@ -36,18 +36,18 @@ const AVAILABLE_PLANS = [
         text: "Comisiones automáticas",
         desc: "Calcula el porcentaje exacto que le corresponde a cada barbero al instante.",
       },
-      {
-        text: "Notificaciones de citas",
-        desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
-      },
+      // {
+      //   text: "Notificaciones de citas",
+      //   desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
+      // },
       {
         text: "Soporte activo",
         desc: "Acceso a nuestro canal de ayuda preferencial vía WhatsApp o correo.",
       },
-      {
-        text: "Personalización del panel",
-        desc: "Adapta los colores y el logotipo del sistema con la identidad de tu marca.",
-      },
+      // {
+      //   text: "Personalización del panel",
+      //   desc: "Adapta los colores y el logotipo del sistema con la identidad de tu marca.",
+      // },
       {
         text: "Automatización de tus finanzas básicas",
         desc: "Automatiza el cálculo de ingresos netos restando los costos operativos esenciales.",
@@ -102,18 +102,18 @@ const AVAILABLE_PLANS = [
         text: "Comisiones automáticas",
         desc: "Calcula el porcentaje exacto que le corresponde a cada barbero al instante.",
       },
-      {
-        text: "Notificaciones de citas",
-        desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
-      },
+      // {
+      //   text: "Notificaciones de citas",
+      //   desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
+      // },
       {
         text: "Soporte activo",
         desc: "Acceso a nuestro canal de ayuda preferencial vía WhatsApp o correo.",
       },
-      {
-        text: "Personalización del panel",
-        desc: "Adapta los colores y el logotipo del sistema con la identidad de tu marca.",
-      },
+      // {
+      //   text: "Personalización del panel",
+      //   desc: "Adapta los colores y el logotipo del sistema con la identidad de tu marca.",
+      // },
       {
         text: "Hasta 2 sucursales",
         desc: "Sincroniza y monitorea dos locales diferentes desde una sola cuenta master.",

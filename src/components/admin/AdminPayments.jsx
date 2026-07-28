@@ -16,9 +16,9 @@ const PAYMENT_METHOD_LABELS = {
 
 export default function AdminPayments() {
   const { can } = usePermissions();
-  const { data: payments, isLoading, createPayment } = usePayments();
+  const { data: payments, isLoading } = usePayments();
   const { data: services } = useBarberServices();
-  const { data: appointments } = useAppointments();
+  // const { data: appointments } = useAppointments();
   const [showFormModal, setShowFormModal] = useState(false);
 
   const sortedPayments = useMemo(() => {
@@ -41,7 +41,7 @@ export default function AdminPayments() {
     },
     {
       header: "Servicio",
-      accessor: "nameService",
+      accessor: "serviceName",
     },
     {
       header: "Cliente",
@@ -84,25 +84,6 @@ export default function AdminPayments() {
           searchPlaceholder="Buscar pagos..."
           searchFields={["userName", "nameService"]}
           emptyMessage={isLoading ? "Cargando..." : "No hay pagos registrados"}
-          actions={
-            can(FEATURES.VIEW_ALL_PAYMENTS) && (
-              <button
-                onClick={() => setShowFormModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                Registrar pago nuevo
-              </button>
-            )
-          }
-        />
-
-        <PaymentFormModal
-          isOpen={showFormModal}
-          onClose={() => setShowFormModal(false)}
-          services={services}
-          appointments={appointments}
-          createPayment={createPayment}
         />
       </div>
     </div>

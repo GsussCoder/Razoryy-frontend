@@ -13,8 +13,8 @@ export function QuickActions({ actions = [], title = 'Acciones rápidas' }) {
             onClick={action.onClick}
             className="flex items-center gap-3 shrink-0 lg:shrink lg:w-full snap-start px-4 py-3 bg-slate-900/60 hover:bg-slate-700/60 border border-slate-700 rounded-lg transition-colors text-left whitespace-nowrap lg:whitespace-normal cursor-pointer"
           >
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${action.color || 'bg-indigo-600'}`}>
-              <action.icon className="w-4 h-4 text-white" />
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-slate-800/80`}>
+              <action.icon className={`w-4 h-4 ${action.iconColor}`} />
             </div>
             <span className="text-sm font-medium text-slate-200">{action.label}</span>
           </button>

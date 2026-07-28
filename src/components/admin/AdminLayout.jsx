@@ -14,6 +14,7 @@ import {
   X,
   User,
   Archive,
+  ListOrdered,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBranding } from "../../contexts/BrandingContext";
@@ -30,8 +31,14 @@ const TOP_NAV_ITEMS = [
   },
   {
     to: "/agenda",
-    label: "Citas",
+    label: "Calendario de citas",
     icon: Calendar,
+    feature: FEATURES.NAV_APPOINTMENTS,
+  },
+  {
+    to: "/assigns",
+    label: "Historial de servicios",
+    icon: ListOrdered,
     feature: FEATURES.NAV_APPOINTMENTS,
   },
   {
@@ -54,7 +61,7 @@ const TOP_NAV_ITEMS = [
   },
   {
     to: "/payments",
-    label: "Registro de pagos",
+    label: "Registros financieros",
     icon: DollarSign,
     feature: FEATURES.NAV_PAYMENTS,
   },

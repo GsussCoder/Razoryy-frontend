@@ -10,17 +10,17 @@ export function BoxStatusBanner({ activeBox, onOpen, onClose, navitageToDetails 
         <div className="flex items-center gap-3 flex-1 min-w-0">
           {/* Indicador pulsante */}
           <div className="relative shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-            <span className="relative flex h-9 w-9 rounded-lg bg-green-500/20 items-center justify-center">
-              <Box className="w-4 h-4 text-green-400" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-60" />
+            <span className="relative flex h-9 w-9 rounded-lg bg-indigo-500/20 items-center justify-center">
+              <Box className="w-4 h-4 text-indigo-400" />
             </span>
           </div>
           <div className="min-w-0">
             <p className="text-sm font-semibold text-white">Caja abierta</p>
             <p className="text-xs text-slate-400 truncate">
               Total caja:{" "}
-              <span className="text-indigo-400 font-medium">
-                ${(activeBox.actualCash + activeBox.digitalPaymentsTotal).toLocaleString("es-CO")}
+              <span className="text-indigo-300/60 font-medium">
+                ${(activeBox.estimatedCash + activeBox.digitalPaymentsTotal).toLocaleString("es-CO")}
               </span>
             </p>
           </div>

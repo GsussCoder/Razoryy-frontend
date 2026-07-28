@@ -1,91 +1,134 @@
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Plus, Receipt, User } from "lucide-react";
 import { useExpenses } from "../../hooks/useExpenses";
-import { useProducts } from "../../hooks/useProducts";
+import { useEmployees } from "../../hooks/useEmployees";
 import DataTable from "../ui/DataTable";
-import ExpenseFormModal from "../modals/ExpenseFormModal";
+import CreateExpenseModal from "./expense/CreateExpenseModal";
+import {
+  getGeneralExpenseColumns,
+  getSalaryExpenseColumns,
+} from "./expense/ExpenseColumns";
 
-const EXPENSE_TYPE_LABELS = {
-  SUPPLIES: "Insumos",
-  PAYROLL: "Nomina",
-};
+export default function ExpensesPage() {
+  const [activeTab, setActiveTab] = useState("GENERAL");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const PAYMENT_METHOD_LABELS = {
-  CASH: "Efectivo",
-  TRANSFER: "Transferencia",
-  // CARD: "Tarjeta"
-};
+  const {
+    expenses,
+    pagination,
+    isLoading,
+    isCreating,
+    error,
+    createExpense,
+    goToPage,
+  } = useExpenses({ activeTab });
 
-export default function AdminExpenses() {
-  const { data: expenses, isLoading, refetch } = useExpenses();
-  const { data: products } = useProducts();
-  const [showFormModal, setShowFormModal] = useState(false);
+  const { refetch: refetchEmployees } = useEmployees();
 
-  const columns = [
-    {
-      header: "Fecha",
-      accessor: "expenseDate",
-      render: (value) => new Date(value).toLocaleDateString('es-ES')
-    },
-    {
-      header: "Tipo",
-      accessor: "expenseType",
-      render: (value) => EXPENSE_TYPE_LABELS[value] || value
-    },
-    {
-      header: "Descripción",
-      accessor: "description"
-    },
-    {
-      header: "Producto",
-      accessor: "product",
-      render: (value) => value?.productName || "N/A"
-    },
-    {
-      header: "Método de Pago",
-      accessor: "paymentMethod",
-      render: (value) => PAYMENT_METHOD_LABELS[value] || value
-    },
-    {
-      header: "Monto",
-      accessor: "amount",
-      render: (value) => `$${value.toLocaleString()}`
+  const handleCreateExpense = async (expenseData) => {
+    try {
+      await createExpense(expenseData);
+
+      // Si el gasto registrado fue de nómina, actualizamos saldos de empleados
+      if (expenseData.expenseType === "SALARY") {
+        await refetchEmployees();
+      }
+      setIsModalOpen(false);
+    } catch {
+      // Manejado internamente por el hook con useToast
     }
-  ];
+  };
+
+  const columns = useMemo(() => {
+    return activeTab === "SALARY"
+      ? getSalaryExpenseColumns()
+      : getGeneralExpenseColumns();
+  }, [activeTab]);
 
   return (
-    <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white">Gastos</h2>
-        <p className="text-slate-400">Registra y consulta los gastos de tu barbería</p>
+    <div className="space-y-4 lg:space-y-6">
+      {/* Encabezado */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-white">Egresos y Salarios</h2>
+          <p className="text-slate-400 text-sm">
+            Gestión de pagos de nómina a barberos y salidas operativas
+          </p>
+        </div>
+
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer shadow-lg shadow-indigo-600/20"
+        >
+          <Plus className="w-4 h-4" />
+          Registrar Gasto / Pago
+        </button>
       </div>
 
-      <div className="space-y-4">
-        <DataTable
-          data={expenses}
-          columns={columns}
-          itemsPerPage={6}
-          searchable={true}
-          searchPlaceholder="Buscar gastos..."
-          searchFields={["description", "expenseType", "paymentMethod"]}
-          emptyMessage={isLoading ? "Cargando..." : "No hay gastos registrados"}
-          actions={
-            <button
-              onClick={() => setShowFormModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              Registrar Gasto
-            </button>
-          }
-        />
+      {/* Pestañas de Filtrado */}
+      <div className="flex border-b border-slate-800 gap-6">
+        <button
+          onClick={() => setActiveTab("GENERAL")}
+          className={`pb-3 text-sm font-medium flex items-center gap-2 transition-colors border-b-2 cursor-pointer ${
+            activeTab === "GENERAL"
+              ? "border-indigo-500 text-indigo-400"
+              : "border-transparent text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <Receipt className="w-4 h-4" />
+          Gastos Operativos
+        </button>
+
+        <button
+          onClick={() => setActiveTab("SALARY")}
+          className={`pb-3 text-sm font-medium flex items-center gap-2 transition-colors border-b-2 cursor-pointer ${
+            activeTab === "SALARY"
+              ? "border-indigo-500 text-indigo-400"
+              : "border-transparent text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <User className="w-4 h-4" />
+          Pagos de Salarios / Nómina
+        </button>
       </div>
 
-      <ExpenseFormModal
-        isOpen={showFormModal}
-        onClose={() => setShowFormModal(false)}
-        onSuccess={refetch}
-        products={products}
+      {/* Alerta de Error */}
+      {error && (
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+          <p className="text-sm text-red-400">{error}</p>
+        </div>
+      )}
+
+      {/* Tabla Paginada de Lado del Servidor */}
+      <DataTable
+        serverSide={true}
+        data={expenses}
+        columns={columns}
+        isLoading={isLoading}
+        page={pagination.currentPage + 1}
+        totalPage={pagination.totalPages}
+        totalElements={pagination.totalElements}
+        pageSize={pagination.pageSize}
+        hasNext={pagination.hasNext}
+        hasPrevious={pagination.hasPrevious}
+        onPageChange={(newPage1Based) => {
+          goToPage(newPage1Based - 1);
+        }}
+        emptyMessage={
+          isLoading
+            ? "Cargando egresos..."
+            : activeTab === "SALARY"
+              ? "No hay egresos por pagos de salarios registrados."
+              : "No hay gastos operacionales registrados."
+        }
+      />
+
+      {/* Modal de Creación */}
+      <CreateExpenseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateExpense}
+        isLoading={isCreating}
       />
     </div>
   );

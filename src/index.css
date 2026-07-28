@@ -16,3 +16,41 @@ body {
   from { width: 100%; }
   to { width: 0%; }
 }
+
+/* ==========================================
+   DISEÑO GLOBAL DE SCROLLBAR (TEMA OSCURO)
+   ========================================== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f172a;
+}
+
+/* Chrome, Edge, Safari, Brave (WebKit) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* Para scrollbars horizontales en tablas/contenedores */
+}
+
+/* Fondo del carril (Track) */
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+/* Barrita desplazable (Thumb) */
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+  border: 2px solid #0f172a; /* Margen estético alrededor de la barra */
+}
+
+/* Estado Hover (al pasar el mouse) */
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Esquinas de intersección de scrolls */
+::-webkit-scrollbar-corner {
+  background: #0f172a;
+}

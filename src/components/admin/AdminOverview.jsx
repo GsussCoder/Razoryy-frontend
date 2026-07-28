@@ -7,6 +7,8 @@ import {
   Scissors,
   Loader2,
   AlertCircle,
+  UserPlus2,
+  Flame,
 } from "lucide-react";
 import { apiClient } from "../../services/apiClient";
 import { usePermissions } from "../../hooks/usePermissions";
@@ -22,8 +24,10 @@ import RecentPaymentsTable from "../ui/RecentPaymentsTable";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BoxStatusBanner } from "./box/BoxStatusBanner";
 import { useBoxes } from "../../hooks/boxes/useBoxes";
+import { useTickets } from "../../hooks/tickets/useTickets";
 import ConfirmModal from "../modals/ConfirmModal";
 import BoxCloseModal from "./box/BoxCloseModal";
+import { TicketFormModal } from "../modals/TicketFormModal";
 
 export default function AdminOverview() {
   const { can } = usePermissions();
@@ -37,11 +41,13 @@ export default function AdminOverview() {
   const { data: appointments } = useAppointments();
   const { data: payments, createPayment } = usePayments();
   const { data: boxes, refetch: refetchBox, openBox, closeBox } = useBoxes();
+  const { data: tickets, refetch: refetchTicket, assignService } = useTickets();
   const navigate = useNavigate();
   const [showFormModalEmployee, setShowFormModalEmployee] = useState(false);
   const [showPaymentFormModal, setShowPaymentFormModal] = useState(false);
   const [showOpenBoxModal, setShowOpenBoxModal] = useState(false);
   const [showCloseBoxModal, setShowCloseBoxModal] = useState(false);
+  const [showTicketModal, setShowTicketModal] = useState(false);
   const activeBox = boxes.find((box) => box.status === "OPEN") ?? null;
   const activeEmployees = users.filter((user) => user.isActive).length;
   const todayHaircuts = payments.filter((payment) => {
@@ -65,58 +71,65 @@ export default function AdminOverview() {
       icon: Calendar,
       label: "Citas pendientes",
       value: todayAppointments,
-      color: "bg-blue-500",
+      iconColor: "text-blue-500",
       feature: FEATURES.NAV_APPOINTMENTS,
     },
     {
-      icon: Scissors,
+      icon: Flame,
       label: "Servicios realizados hoy",
       value: todayHaircuts.length,
-      color: "bg-red-500",
+      iconColor: "text-red-500",
       feature: FEATURES.VIEW_INCOME_STATS,
     },
     {
       icon: DollarSign,
       label: "Ingresos hoy",
       value: `$${todayIncome.toLocaleString()}`,
-      color: "bg-green-500",
+      iconColor: "text-green-500",
       feature: FEATURES.VIEW_INCOME_STATS,
     },
     {
       icon: Users,
       label: "Barberos activos",
       value: activeEmployees,
-      color: "bg-purple-500",
+      iconColor: "text-purple-500",
       feature: null,
     },
     {
       icon: Scissors,
       label: "Servicios disponibles",
       value: services.length,
-      color: "bg-orange-500",
+      iconColor: "text-orange-500",
       feature: null,
     },
   ].filter((card) => !card.feature || can(card.feature));
 
   const quickActions = [
     {
+      icon: UserPlus2,
+      label: "Asignar corte",
+      iconColor: "text-red-500",
+      onClick: () => setShowTicketModal(true),
+      feature: FEATURES.NAV_PAYMENTS,
+    },
+    {
       icon: DollarSign,
       label: "Registrar pago rápido",
-      color: "bg-green-600",
+      iconColor: "text-green-500",
       onClick: () => setShowPaymentFormModal(true),
       feature: FEATURES.NAV_PAYMENTS,
     },
     {
       icon: Plus,
       label: "Nuevo barbero",
-      color: "bg-indigo-600",
+      iconColor: "text-purple-500",
       onClick: () => setShowFormModalEmployee(true),
       feature: FEATURES.MANAGE_EMPLOYEES,
     },
     {
       icon: Calendar,
-      label: "Ver citas",
-      color: "bg-blue-600",
+      label: "Calendario de citas",
+      iconColor: "text-blue-500",
       onClick: () => navigate("/agenda"),
       feature: FEATURES.NAV_APPOINTMENTS,
     },
@@ -169,9 +182,9 @@ export default function AdminOverview() {
                 className="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm flex items-center gap-4"
               >
                 <div
-                  className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center shrink-0`}
+                  className={`w-10 h-10 bg-slate-900/60 rounded-lg flex items-center justify-center shrink-0`}
                 >
-                  <stat.icon className="w-5 h-5 text-white" />
+                  <stat.icon className={`w-5 h-5 ${stat.iconColor}`} />
                 </div>
                 <div className="flex flex-col min-w-0">
                   <p className="text-xs font-medium text-slate-400 truncate">
@@ -215,6 +228,15 @@ export default function AdminOverview() {
         isOpen={showFormModalEmployee}
         onClose={() => setShowFormModalEmployee(false)}
         onSuccess={refetchEmployee}
+      />
+
+      <TicketFormModal
+        isOpen={showTicketModal}
+        onClose={() => setShowTicketModal(false)}
+        onSuccess={refetchTicket}
+        users={users}
+        services={services}
+        onAssign={assignService}
       />
 
       <PaymentFormModal

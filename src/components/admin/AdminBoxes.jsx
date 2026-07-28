@@ -100,7 +100,7 @@ export default function AdminBoxes() {
     {
       header: "Total del día",
       accessor: "total",
-      render: (value) => fmt(value),
+      render: (_, row) => fmt(row.actualCash),
     },
     {
       header: "Cierre",

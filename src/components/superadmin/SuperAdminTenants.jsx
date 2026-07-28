@@ -1,44 +1,60 @@
-import { useState, useEffect } from "react";
-import { Loader2, Plus, AlertCircle, CheckCircle, XCircle } from "lucide-react";
-import { apiClient } from "../../services/apiClient";
-import { FEATURES } from "../../config/permissions";
-import { usePermissions } from "../../hooks/usePermissions";
+import { Loader2, CheckCircle, XCircle } from "lucide-react";
 import DataTable from "../ui/DataTable";
 import { useTenants } from "../../hooks/useTenants";
-import { TenantFormModal } from "../modals/TenantFormModal";
+
+const MEMBERSHIP_PLANS = ["PRO", "BUSINESS"];
 
 export default function SuperAdminTenants() {
-  const { can } = usePermissions();
-  const { refetch, data: tenants, isLoading, error, togglingId } = useTenants();
-  const [showNewTenantModal, setShowNewTenantModal] = useState(false);
-  const [formData, setFormData] = useState({
-    barberName: "",
-    membership: "BASIC",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [actionLoading, setActionLoading] = useState(null);
+  const {
+    data: tenants,
+    isLoading,
+    error,
+    togglingId,
+    changeState,
+    changeMembership,
+  } = useTenants();
 
   const columns = [
     { header: "Barberia", accessor: "barberName" },
-    { header: "Plan", accessor: "membership" },
+    {
+      header: "Plan",
+      accessor: "membership",
+      render: (value, row) => (
+        <select
+          value={value}
+          disabled={togglingId === row.id}
+          onChange={(e) => changeMembership(row.id, e.target.value)}
+          className="bg-slate-900 border border-slate-700 rounded-lg text-xs text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          {MEMBERSHIP_PLANS.map((plan) => (
+            <option key={plan} value={plan}>
+              {plan}
+            </option>
+          ))}
+        </select>
+      ),
+    },
     {
       header: "Precio",
       accessor: "membershipPrice",
-      render: (value) => <span>{value.toLocaleString()}</span>,
+      render: (value) => <span>{value?.toLocaleString()}</span>,
     },
     {
       header: "Estado",
       accessor: "isActive",
       render: (value, row) => (
         <button
-          onClick={() => console.log("Clic")}
+          onClick={() => changeState(row.id)}
+          disabled={togglingId === row.id}
           className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
             value
               ? "bg-green-500/20 text-green-400"
               : "bg-red-500/20 text-red-400"
-          } hover:bg-yellow-500/20 hover:text-yellow-400 transition cursor-pointer`}
+          } hover:bg-yellow-500/20 hover:text-yellow-400 transition cursor-pointer disabled:opacity-50`}
         >
-          {value ? (
+          {togglingId === row.id ? (
+            <Loader2 className="w-3 h-3 animate-spin" />
+          ) : value ? (
             <CheckCircle className="w-3 h-3" />
           ) : (
             <XCircle className="w-3 h-3" />
@@ -63,10 +79,14 @@ export default function SuperAdminTenants() {
         <div>
           <h2 className="text-2xl font-bold text-white">Barberías</h2>
           <p className="text-slate-400">
-            Gestiona todas las barberías del sistema
+            Gestiona todas las barberías del sistema. Las barberías nuevas se
+            registran ellas mismas desde /register — aquí solo administras
+            plan y estado.
           </p>
         </div>
       </div>
+
+      {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
 
       <DataTable
         data={tenants}
@@ -75,24 +95,7 @@ export default function SuperAdminTenants() {
         searchable={true}
         searchPlaceholder="Buscar barberías..."
         searchFields={["barberName"]}
-        emptyMessage={isLoading ? "Cargando..." : "No hay empleados registrados"}
-        actions={
-          can(FEATURES.NAV_TENANTS) && (
-            <button
-              onClick={() => setShowNewTenantModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              Nueva barberia
-            </button>
-          )
-        }
-      />
-
-      <TenantFormModal
-        isOpen={showNewTenantModal}
-        onClose={() => setShowNewTenantModal(false)}
-        onSuccess={refetch}
+        emptyMessage={isLoading ? "Cargando..." : "No hay barberías registradas"}
       />
     </div>
   );
