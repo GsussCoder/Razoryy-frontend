@@ -48,7 +48,7 @@ export function Header({ scrollToContact, scrollToPrice }) {
         {/* Contenedor Móvil: Botón Principal + Hamburguesa */}
         <div className="flex items-center gap-2 md:hidden">
           <a
-            href="/login"
+            href="/register"
             className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-medium rounded-md transition-colors"
           >
             Prueba gratis
