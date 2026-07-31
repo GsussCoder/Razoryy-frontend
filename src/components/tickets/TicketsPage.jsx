@@ -12,12 +12,18 @@ import { TicketFormModal } from "../modals/TicketFormModal";
 import { PayTicketModal } from "../modals/PayTicketModal";
 import { TicketsFilters, TableStatusActions } from "./TicketsFilters";
 import { getTicketColumns } from "./TicketColumns";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createAssignsTour } from "../../tours/steps/assignsTour";
 
 export default function AdminTickets() {
   const { user } = useAuth();
 
   const isEmployee = user?.role === "employee" || user?.role === "EMPLOYEE";
   const currentRole = isEmployee ? "EMPLOYEE" : "ADMIN";
+  const isMobile = useBreakpoint();
+
+  usePageTour("assigns", () => createAssignsTour({ role: user?.role, isMobile }));
 
   const [viewMode, setViewMode] = useState("ACTIVE");
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -77,7 +83,7 @@ export default function AdminTickets() {
   );
 
   return (
-    <div className="space-y-4 lg:space-y-6">
+    <div id="panel-assigns" className="space-y-4 lg:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-white">
@@ -93,6 +99,7 @@ export default function AdminTickets() {
         {/* El botón de Asignar Corte SOLO se muestra para el Admin */}
         {!isEmployee && (
           <button
+            id="assign-service-button"
             onClick={() => setShowFormModal(true)}
             className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer"
           >

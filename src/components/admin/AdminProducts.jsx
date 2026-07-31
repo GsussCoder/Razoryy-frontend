@@ -6,11 +6,17 @@ import { useProducts } from "../../hooks/useProducts";
 import DataTable from "../ui/DataTable";
 import ProductFormModal from "../modals/ProductFormModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createProductsTour } from "../../tours/steps/productsTour";
 
 export default function AdminProducts() {
   const { can } = usePermissions();
   const { data, isLoading, refetch, deleteProduct } = useProducts();
   const [showFormModal, setShowFormModal] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("products", () => createProductsTour({ isMobile }));
   const [productToEdit, setProductToEdit] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
@@ -75,7 +81,7 @@ export default function AdminProducts() {
   ];
 
   return (
-    <div>
+    <div id="panel-products">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Productos</h2>
         <p className="text-slate-400">Administra los productos de tu barbería</p>

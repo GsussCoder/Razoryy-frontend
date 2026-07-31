@@ -6,6 +6,9 @@ import { useEmployees } from "../../hooks/useEmployees";
 import { AuthContext } from "../../contexts/AuthContext";
 import DataTable from "../ui/DataTable";
 import { EmployeeFormModal } from "../modals/EmployeeFormModal";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createEmployeesTour } from "../../tours/steps/employeesTour";
 
 export default function AdminEmployees() {
   const { can } = usePermissions();
@@ -14,6 +17,11 @@ export default function AdminEmployees() {
     useEmployees();
   const [showFormModal, setShowFormModal] = useState(false);
   // const [buttonStateActive, setButtonStateActive] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("employees", () =>
+    createEmployeesTour({ role: user?.role, isMobile }),
+  );
 
   const columns = [
     { header: "Nombre", accessor: "name" },
@@ -78,7 +86,7 @@ export default function AdminEmployees() {
   ];
 
   return (
-    <div>
+    <div id="panel-employees">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Barberos</h2>
         <p className="text-slate-400">Gestiona el personal de tu barbería</p>

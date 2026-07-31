@@ -6,11 +6,17 @@ import { useBarberServices } from "../../hooks/useBarberServices";
 import DataTable from "../ui/DataTable";
 import ServiceFormModal from "../modals/ServiceFormModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createServicesTour } from "../../tours/steps/servicesTour";
 
 export default function AdminServices() {
   const { can } = usePermissions();
   const { data, isLoading, refetch, deleteService } = useBarberServices();
   const [showFormModal, setShowFormModal] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("services", () => createServicesTour({ isMobile }));
   const [serviceToEdit, setServiceToEdit] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState(null);
@@ -68,7 +74,7 @@ export default function AdminServices() {
   ];
 
   return (
-    <div>
+    <div id="panel-services">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Servicios</h2>
         <p className="text-slate-400">Administra los servicios de tu barbería</p>

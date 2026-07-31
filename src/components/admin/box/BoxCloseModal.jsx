@@ -8,17 +8,21 @@ export default function BoxCloseModal({ isOpen, onClose, onConfirm, box }) {
 
   const estimatedCash = box?.estimatedCash ?? 0;
   const digitalTotal = box?.digitalPaymentsTotal ?? 0;
+  const expensesTotal = box?.expensesTotal ?? 0;
 
   // Calcular diferencia en tiempo real mientras el usuario escribe
   const actualCashNum = parseFloat(actualCash) || 0;
-  const difference = actualCashNum - estimatedCash;
+  const cashDifference = actualCashNum - estimatedCash;
+  const totalReal = actualCashNum + digitalTotal;
+  const totalExpected = estimatedCash + digitalTotal;
+  const globalDifference = totalReal - totalExpected;
   const hasCashValue = actualCash !== "";
 
   const getDifferenceConfig = () => {
     if (!hasCashValue) return null;
-    if (difference === 0) return { icon: Minus, text: "Cuadre exacto", color: "text-green-400", bg: "bg-green-500/10 border-green-500/20" };
-    if (difference > 0)  return { icon: TrendingUp, text: `Sobrante: $${difference.toLocaleString("es-CO")}`, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" };
-    return { icon: TrendingDown, text: `Faltante: $${Math.abs(difference).toLocaleString("es-CO")}`, color: "text-red-400", bg: "bg-red-500/10 border-red-500/20" };
+    if (globalDifference === 0) return { icon: Minus, text: "Cuadre exacto", color: "text-green-400", bg: "bg-green-500/10 border-green-500/20" };
+    if (globalDifference > 0)  return { icon: TrendingUp, text: `Sobrante: $${globalDifference.toLocaleString("es-CO")}`, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" };
+    return { icon: TrendingDown, text: `Faltante: $${Math.abs(globalDifference).toLocaleString("es-CO")}`, color: "text-red-400", bg: "bg-red-500/10 border-red-500/20" };
   };
 
   const diffConfig = getDifferenceConfig();
@@ -65,6 +69,12 @@ export default function BoxCloseModal({ isOpen, onClose, onConfirm, box }) {
               ${digitalTotal.toLocaleString("es-CO")}
             </span>
           </div>
+          <div className="flex justify-between">
+            <span className="text-sm text-slate-400">Gastos de caja</span>
+            <span className="text-sm font-medium text-red-400">
+              -${expensesTotal.toLocaleString("es-CO")}
+            </span>
+          </div>
         </div>
 
         {/* Input del efectivo real */}
@@ -95,7 +105,7 @@ export default function BoxCloseModal({ isOpen, onClose, onConfirm, box }) {
         )}
 
         {/* Advertencia si hay faltante */}
-        {hasCashValue && difference < 0 && (
+        {hasCashValue && globalDifference < 0 && (
           <div className="flex items-start gap-2 text-xs text-amber-400">
             <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
             <span>Hay un faltante en caja. Verifica el conteo antes de cerrar.</span>

@@ -31,6 +31,7 @@ import SuperAdminMetrics from "./components/superadmin/SuperAdminMetrics";
 import SuperAdminTenants from "./components/superadmin/SuperAdminTenants";
 import SuperAdminUsers from "./components/superadmin/SuperAdminUsers";
 import AdminReports from "./components/admin/AdminReports";
+import TourProvider from "./tours/TourProvider";
 
 function DashboardView() {
   const { user } = useAuth();
@@ -56,7 +57,9 @@ function RoleBasedLayout() {
 export default function App() {
   return (
     <Router>
-      <Routes>
+      {/* TourProvider necesita estar DENTRO del Router (usa useLocation) */}
+      <TourProvider>
+        <Routes>
         {/* Rutas Públicas */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
@@ -203,7 +206,8 @@ export default function App() {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+        </Routes>
+      </TourProvider>
     </Router>
   );
 }

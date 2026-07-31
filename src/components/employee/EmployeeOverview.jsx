@@ -8,15 +8,26 @@ import { useAppointments } from "../../hooks/useAppointments";
 import { QuickActions } from "../ui/QuickActions";
 import RecentPaymentsTable from "../ui/RecentPaymentsTable";
 import { FEATURES } from "../../config/permissions";
-import { PaymentFormModal } from "../modals/PaymentFormModal";
+import { useAuth } from "../../contexts/AuthContext";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createDashboardTour } from "../../tours/steps/dashboardTour";
 
 export default function EmployeeOverview() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { data: services, isLoading, error } = useBarberServices();
   const { data: payments, createPayment } = usePayments();
   const { data: appointments } = useAppointments();
   const { can } = usePermissions();
-  const [showFormModal, setShowFormModal] = useState(false);
+  const isMobile = useBreakpoint();
+
+  // Mismo id "dashboard" que usa AdminOverview: solo uno de los dos
+  // componentes se monta a la vez (según el rol, ver App.jsx/DashboardView),
+  // así que no hay conflicto de registro.
+  usePageTour("dashboard", () =>
+    createDashboardTour({ role: user?.role, isMobile }),
+  );
 
   const todayHaircuts = payments.filter((payment) => {
     const today = new Date();
@@ -25,27 +36,27 @@ export default function EmployeeOverview() {
     paymentDate.setHours(0, 0, 0, 0);
     return paymentDate.getTime() === today.getTime();
   });
-  const todayIncome = todayHaircuts.reduce((acc, h) => acc + h.amount, 0);
+  const todayIncome = todayHaircuts.reduce((acc, h) => acc + h.payoutAmount, 0);
   const todayAppointments = 0;
 
   const statCards = [
     {
       icon: Calendar,
-      label: "Citas hoy",
+      label: "Tus citas hoy",
       value: todayAppointments,
       color: "bg-blue-500",
       feature: FEATURES.NAV_APPOINTMENTS,
     },
     {
       icon: Scissors,
-      label: "Cortes realizados",
+      label: "Tus cortes realizados hoy",
       value: todayHaircuts.length,
       color: "bg-red-500",
       feature: FEATURES.VIEW_INCOME_STATS,
     },
     {
       icon: DollarSign,
-      label: "Ingresos hoy",
+      label: "Tus ingresos hoy",
       value: `$${todayIncome.toLocaleString()}`,
       color: "bg-green-500",
       feature: FEATURES.VIEW_INCOME_STATS,
@@ -62,9 +73,9 @@ export default function EmployeeOverview() {
   const quickActions = [
     {
       icon: DollarSign,
-      label: "Registrar pago",
+      label: "Ver mis pagos",
       color: "bg-green-600",
-      onClick: () => setShowFormModal(true),
+      onClick: () => navigate("/my-payments"),
       feature: FEATURES.NAV_PAYMENTS,
     },
     {
@@ -99,7 +110,10 @@ export default function EmployeeOverview() {
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         <div className="order-2 lg:order-1 lg:flex-1 space-y-4 lg:space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+          <div
+            id="metrics-summary-grid"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6"
+          >
             {statCards.map((stat, idx) => (
               <div
                 key={idx}
@@ -125,18 +139,13 @@ export default function EmployeeOverview() {
           <RecentPaymentsTable payments={payments} limit={5} />
         </div>
 
-        <div className="order-1 lg:order-2 lg:w-64 shrink-0">
+        <div
+          id="quick-actions-panel"
+          className="order-1 lg:order-2 lg:w-64 shrink-0"
+        >
           <QuickActions actions={quickActions} />
         </div>
       </div>
-
-      <PaymentFormModal
-        isOpen={showFormModal}
-        onClose={() => setShowFormModal(false)}
-        services={services}
-        appointments={appointments}
-        createPayment={createPayment}
-      />
     </div>
   );
 }

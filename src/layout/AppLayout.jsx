@@ -3,7 +3,14 @@ import { Scissors, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useBranding } from "../contexts/BrandingContext";
 import { usePermissions } from "../hooks/usePermissions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { SidebarBridge } from "../tours/sidebarBridge";
+import { usePageTour } from "../tours/usePageTour";
+import { useBreakpoint } from "../tours/useBreakpoint";
+import {
+  createSidebarTour,
+  closeMobileSidebarOnExit,
+} from "../tours/steps/sidebarTour";
 
 export default function AppLayout({
   topNavConfig = [],
@@ -16,6 +23,21 @@ export default function AppLayout({
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { can } = usePermissions();
+  const isMobile = useBreakpoint();
+
+  // Permite que el tour (createSidebarTour, ver tours/steps/sidebarTour.js)
+  // abra/cierre este drawer en móvil sin acoplar el motor de tours a AppLayout.
+  useEffect(() => {
+    SidebarBridge.register(
+      () => setSidebarOpen(true),
+      () => setSidebarOpen(false),
+    );
+    return () => SidebarBridge.unregister();
+  }, []);
+
+  usePageTour("sidebar", () => createSidebarTour({ isMobile }), {
+    onDestroyed: () => closeMobileSidebarOnExit(isMobile),
+  });
 
   const filterItems = (items) =>
     items.filter((item) => !item.feature || can(item.feature));
@@ -113,7 +135,10 @@ export default function AppLayout({
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-4 space-y-1 strict-scrollbar">
+        <nav
+          id="sidebar-navigation"
+          className="flex-1 overflow-y-auto p-4 space-y-1 strict-scrollbar"
+        >
           {topNavItems.map(renderNavLink)}
         </nav>
 

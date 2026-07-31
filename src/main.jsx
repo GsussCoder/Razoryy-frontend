@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import "driver.js/dist/driver.css";
+import "./tours/theme.css"; // debe ir DESPUÉS de driver.css para poder sobreescribirlo
 import App from "./App.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { BrandingProvider } from "./contexts/BrandingContext.jsx";

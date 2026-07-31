@@ -4,6 +4,9 @@ import { useExpenses } from "../../hooks/useExpenses";
 import { useEmployees } from "../../hooks/useEmployees";
 import DataTable from "../ui/DataTable";
 import CreateExpenseModal from "./expense/CreateExpenseModal";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createExpensesTour } from "../../tours/steps/expensesTour";
 import {
   getGeneralExpenseColumns,
   getSalaryExpenseColumns,
@@ -12,6 +15,9 @@ import {
 export default function ExpensesPage() {
   const [activeTab, setActiveTab] = useState("GENERAL");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("expenses", () => createExpensesTour({ isMobile }));
 
   const {
     expenses,
@@ -46,7 +52,7 @@ export default function ExpensesPage() {
   }, [activeTab]);
 
   return (
-    <div className="space-y-4 lg:space-y-6">
+    <div id="panel-expenses" className="space-y-4 lg:space-y-6">
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>

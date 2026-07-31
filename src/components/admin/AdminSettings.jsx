@@ -5,6 +5,9 @@ import { useBranding } from "../../contexts/BrandingContext";
 import { usePermissions } from "../../hooks/usePermissions";
 import { FEATURES } from "../../config/permissions";
 import { useUpdateBusinessName } from "../../hooks/useUpdateBusinessName";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createSettingsTour } from "../../tours/steps/settingsTour";
 
 export default function AdminSettings() {
   const { user } = useAuth();
@@ -20,6 +23,9 @@ export default function AdminSettings() {
   const [barberName, setBarberNameInput] = useState(branding.barberName);
   const [color, setColor] = useState(branding.primaryColor);
   const [uploading, setUploading] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("settings", () => createSettingsTour({ isMobile }));
   const fileInputRef = useRef(null);
 
   // const handleColorChange = (e) => {
@@ -65,7 +71,7 @@ export default function AdminSettings() {
   };
 
   return (
-    <div>
+    <div id="panel-settings">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Configuración</h2>
         <p className="text-slate-400">Información y configuración del local.</p>

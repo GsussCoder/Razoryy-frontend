@@ -30,7 +30,7 @@ export function ReportKpiCards({ balance, isLoading }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+    <div id="kpi-reports-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
       {cards.map((s) => (
         <div
           key={s.label}

@@ -7,11 +7,15 @@ import { Plus } from "lucide-react";
 import { useState, useMemo } from "react";
 import { PaymentFormModal } from "../modals/PaymentFormModal";
 import DataTable from "../ui/DataTable";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createPaymentsTour } from "../../tours/steps/paymentsTour";
 
 const PAYMENT_METHOD_LABELS = {
   CASH: "Efectivo",
   TRANSFER: "Transferencia",
-  // CARD: "Tarjeta"
+  NEQUI: "Nequi",
+  DAVIPLATA: "Daviplata",
 };
 
 export default function AdminPayments() {
@@ -20,6 +24,9 @@ export default function AdminPayments() {
   const { data: services } = useBarberServices();
   // const { data: appointments } = useAppointments();
   const [showFormModal, setShowFormModal] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("payments", () => createPaymentsTour({ isMobile }));
 
   const sortedPayments = useMemo(() => {
     return [...payments].sort((a, b) => {
@@ -33,21 +40,18 @@ export default function AdminPayments() {
     {
       header: "Fecha",
       accessor: "createdAt",
-      render: (value) => new Date(value).toLocaleString("es-CO"),
+      render: (value) =>
+        new Date(value).toLocaleString("es-CO", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
     },
     {
       header: "Barbero",
       accessor: "userName",
-    },
-    {
-      header: "Servicio",
-      accessor: "serviceName",
-    },
-    {
-      header: "Cliente",
-      accessor: "appointment",
-      render: (value) => <span>{value || "N/A"}</span>,
-      visible: can(FEATURES.NAV_APPOINTMENTS),
     },
     {
       header: "Método de Pago",
@@ -57,19 +61,27 @@ export default function AdminPayments() {
     {
       header: "Monto Total",
       accessor: "amount",
-      render: (value) => `$${value.toLocaleString()}`,
+      render: (value) => (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+          ${value.toLocaleString("es-CO")}
+        </span>
+      ),
     },
     {
       header: "Comisión Empleado",
       accessor: "payoutAmount",
-      render: (value) => `$${(value || 0).toLocaleString()}`,
+      render: (value) => (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-yellow-500/10 text-yellow-400 border-yellow-500/20">
+          ${value.toLocaleString("es-CO")}
+        </span>
+      ),
     },
   ];
 
   const visibleColumns = columns.filter((col) => col.visible !== false);
 
   return (
-    <div>
+    <div id="panel-payments">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Registro de pagos</h2>
         <p className="text-slate-400">Historial de pagos y comisiones</p>
@@ -82,7 +94,7 @@ export default function AdminPayments() {
           itemsPerPage={6}
           searchable={true}
           searchPlaceholder="Buscar pagos..."
-          searchFields={["userName", "nameService"]}
+          searchFields={["userName", "createdAt"]}
           emptyMessage={isLoading ? "Cargando..." : "No hay pagos registrados"}
         />
       </div>

@@ -463,13 +463,13 @@ export default function Register() {
                 </div>
               </div>
 
-              <p className="text-xs text-slate-500">
+              {/* <p className="text-xs text-slate-500">
                 Al registrarte aceptas nuestros{" "}
                 <a href="#" className="text-indigo-400 hover:underline">
                   términos y condiciones
                 </a>
                 .
-              </p>
+              </p> */}
 
               <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                 <button

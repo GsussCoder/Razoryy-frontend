@@ -5,6 +5,9 @@ import CalendarHeader from "./CalendarHeader";
 import CalendarGrid from "./CalendarGrid";
 import CalendarMobileView from "./CalendarMobileView";
 import AppointmentModal from "./AppointmentModal";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createAgendaTour } from "../../tours/steps/agendaTour";
 
 export default function AppointmentPage() {
   const { user } = useAuth();
@@ -17,6 +20,9 @@ export default function AppointmentPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("agenda", () => createAgendaTour({ role: user?.role, isMobile }));
 
   const handlePrevWeek = () => {
     const prev = new Date(currentDate);
@@ -64,7 +70,7 @@ export default function AppointmentPage() {
   };
 
   return (
-    <div className="h-full flex flex-col space-y-3 sm:space-y-4 overflow-hidden">
+    <div id="panel-agenda" className="h-full flex flex-col space-y-3 sm:space-y-4 overflow-hidden">
       <CalendarHeader
         currentDate={currentDate}
         onPrevWeek={handlePrevWeek}

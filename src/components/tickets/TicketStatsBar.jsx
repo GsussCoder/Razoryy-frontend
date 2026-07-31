@@ -18,7 +18,7 @@ export function TicketStatsBar({ stats, isLoading, viewMode = "ACTIVE" }) {
   const config = viewMode === "ACTIVE" ? TODAY_CONFIG : HISTORY_CONFIG;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
+    <div id="services-stats-bar" className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
       {config.map((s) => {
         const count = stats ? (stats[s.key] ?? 0) : 0;
         return (

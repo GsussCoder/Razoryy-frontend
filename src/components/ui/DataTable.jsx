@@ -127,7 +127,7 @@ export default function DataTable({
   }
 
   return (
-    <div className="w-full min-w-0 space-y-4">
+    <div id="services-data-table" className="w-full min-w-0 space-y-4">
       {(searchable || actions) && (
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
           {searchable && (

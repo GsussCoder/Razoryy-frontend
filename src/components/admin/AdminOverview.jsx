@@ -28,9 +28,14 @@ import { useTickets } from "../../hooks/tickets/useTickets";
 import ConfirmModal from "../modals/ConfirmModal";
 import BoxCloseModal from "./box/BoxCloseModal";
 import { TicketFormModal } from "../modals/TicketFormModal";
+import { useAuth } from "../../contexts/AuthContext";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createDashboardTour } from "../../tours/steps/dashboardTour";
 
 export default function AdminOverview() {
   const { can } = usePermissions();
+  const { user } = useAuth();
   const {
     data: users,
     isLoading,
@@ -39,9 +44,9 @@ export default function AdminOverview() {
   } = useEmployees();
   const { data: services } = useBarberServices();
   const { data: appointments } = useAppointments();
-  const { data: payments, createPayment } = usePayments();
+  const { data: payments } = usePayments();
   const { data: boxes, refetch: refetchBox, openBox, closeBox } = useBoxes();
-  const { data: tickets, refetch: refetchTicket, assignService } = useTickets();
+  const { data: tickets, refetch: refetchTicket, assignService, createFastTicket } = useTickets();
   const navigate = useNavigate();
   const [showFormModalEmployee, setShowFormModalEmployee] = useState(false);
   const [showPaymentFormModal, setShowPaymentFormModal] = useState(false);
@@ -135,6 +140,15 @@ export default function AdminOverview() {
     },
   ].filter((action) => !action.feature || can(action.feature));
 
+  const isMobile = useBreakpoint();
+
+  usePageTour("dashboard", () =>
+    createDashboardTour({
+      role: user?.role,
+      isMobile,
+    }),
+  );
+
   const confirmOpenBox = () => {
     openBox();
     refetchBox();
@@ -163,7 +177,7 @@ export default function AdminOverview() {
       )}
 
       {can(FEATURES.NAV_BOXES) && (
-        <div className="mb-4 lg:mb-6">
+        <div id="cash-box-banner" className="mb-4 lg:mb-6">
           <BoxStatusBanner
             activeBox={activeBox}
             onOpen={() => setShowOpenBoxModal(true)}
@@ -175,7 +189,7 @@ export default function AdminOverview() {
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         <div className="order-2 lg:order-1 lg:flex-1 space-y-4 lg:space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+          <div id="metrics-summary-grid" className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
             {statCards.map((stat, idx) => (
               <div
                 key={idx}
@@ -201,7 +215,7 @@ export default function AdminOverview() {
           <RecentPaymentsTable payments={payments} limit={5} />
         </div>
 
-        <div className="order-1 lg:order-2 lg:w-64 shrink-0">
+        <div id="quick-actions-panel" className="order-1 lg:order-2 lg:w-64 shrink-0">
           <QuickActions actions={quickActions} />
         </div>
       </div>
@@ -242,9 +256,9 @@ export default function AdminOverview() {
       <PaymentFormModal
         isOpen={showPaymentFormModal}
         onClose={() => setShowPaymentFormModal(false)}
+        createFastTicket={createFastTicket}
         services={services}
-        appointments={appointments}
-        createPayment={createPayment}
+        currentBox={activeBox}
       />
     </div>
   );

@@ -26,7 +26,7 @@ export function TicketsFilters({
   setEndDate,
 }) {
   return (
-    <div className="space-y-4 bg-slate-800 p-4 rounded-2xl border border-slate-700 backdrop-blur-md">
+    <div id="filter-assigns-header" className="space-y-4 bg-slate-800 p-4 rounded-2xl border border-slate-700 backdrop-blur-md">
       {/* Vistas principales */}
       <div className="flex justify-between items-center flex-wrap gap-3">
         <div className="flex bg-slate-900/60 p-1 rounded-xl border border-slate-700">

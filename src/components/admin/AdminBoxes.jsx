@@ -1,13 +1,17 @@
 import { usePermissions } from "../../hooks/usePermissions";
 import { FEATURES } from "../../config/permissions";
-import { ChevronRight, Plus } from "lucide-react";
+import { ChevronRight, Eye, Loader2, Plus } from "lucide-react";
 import { useState } from "react";
 import { ActiveBoxCard } from "./box/ActiveBoxCard";
-import { BoxDetailModal } from "./box/BoxDetailModal";
+import BoxDetailsModal from "./report/BoxDetailModal";
 import { useBoxes } from "../../hooks/boxes/useBoxes";
 import ConfirmModal from "../modals/ConfirmModal";
 import BoxCloseModal from "./box/BoxCloseModal";
 import DataTable from "../ui/DataTable";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createBoxesTour } from "../../tours/steps/boxesTour";
+import { useReports } from "../../hooks/useReports";
 
 // -----------------------------------------------------------------
 // Helpers
@@ -47,10 +51,19 @@ const STATUS_CONFIG = {
 export default function AdminBoxes() {
   const { can } = usePermissions();
   const { data: boxes, isLoading, refetch, openBox, closeBox } = useBoxes();
+  const {
+    boxReport,
+    isLoadingBox,
+    boxError,
+    fetchBoxReport,
+  } = useReports();
   const [selectedBox, setSelectedBox] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("boxes", () => createBoxesTour({ isMobile }));
   const [actualCash, setActualCash] = useState(0);
 
   const activeBox = boxes.find((b) => b.status === "OPEN") ?? null;
@@ -58,6 +71,7 @@ export default function AdminBoxes() {
 
   const handleViewDetails = (box) => {
     setSelectedBox(box);
+    fetchBoxReport(box.id);
     setShowDetailModal(true);
   };
 
@@ -100,7 +114,7 @@ export default function AdminBoxes() {
     {
       header: "Total del día",
       accessor: "total",
-      render: (_, row) => fmt(row.actualCash),
+      render: (_, row) => fmt(row.actualCash + row.digitalPaymentsTotal),
     },
     {
       header: "Cierre",
@@ -110,20 +124,25 @@ export default function AdminBoxes() {
     {
       header: "Acciones",
       accessor: "id",
-      render: (_, row) => (
+      render: (id, row) => (
         <button
           onClick={() => handleViewDetails(row)}
-          className="flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+          disabled={isLoadingBox && selectedBox?.id === id}
+          className="px-2.5 py-1 rounded-lg text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20 transition-colors cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
         >
-          Detalles
-          <ChevronRight className="w-3.5 h-3.5" />
+          {isLoadingBox && selectedBox?.id === id ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <Eye className="w-3.5 h-3.5" />
+          )}
+          Ver detalles
         </button>
       ),
     },
   ];
 
   return (
-    <div>
+    <div id="panel-boxes">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white">Cajas diarias</h2>
@@ -175,23 +194,21 @@ export default function AdminBoxes() {
         itemName={"abrir nueva caja"}
       />
 
-      <BoxDetailModal
+      <BoxDetailsModal
         isOpen={showDetailModal}
         onClose={() => setShowDetailModal(false)}
-        box={selectedBox}
-        fmt={fmt}
-        fmtDate={fmtDate}
-        fmtTime={fmtTime}
-        STATUS_CONFIG={STATUS_CONFIG}
+        isLoadingBox={isLoadingBox}
+        boxError={boxError}
+        boxReport={boxReport}
       />
 
       <BoxCloseModal
         isOpen={showCloseModal}
         onClose={() => setShowCloseModal(false)}
-        onConfirm={async(actualCash) => {
-            await closeBox(selectedBox.id, actualCash);
-            await refetch();
-            setShowCloseModal(false);
+        onConfirm={async (actualCash) => {
+          await closeBox(selectedBox.id, actualCash);
+          await refetch();
+          setShowCloseModal(false);
         }}
         box={selectedBox}
       />

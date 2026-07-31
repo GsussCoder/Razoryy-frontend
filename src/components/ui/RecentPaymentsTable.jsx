@@ -11,26 +11,28 @@ export default function RecentPaymentsTable({ payments = [], limit = 5 }) {
       accessor: "createdAt",
       render: (value) =>
         new Date(value).toLocaleString("es-CO", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
           hour: "2-digit",
           minute: "2-digit",
         }),
     },
-    { header: "Servicio", accessor: "nameService" },
     {
-      header: "Método",
-      accessor: "paymentType",
-      render: (value) => (
-        <span className="text-xs text-slate-400">
-          {PAYMENT_METHOD_LABELS[value] || value}
-        </span>
-      ),
+      header: "Barbero",
+      accessor: "userName",
     },
     {
-      header: "Monto",
+      header: "Método de Pago",
+      accessor: "paymentType",
+      render: (value) => PAYMENT_METHOD_LABELS[value] || value,
+    },
+    {
+      header: "Monto Total",
       accessor: "amount",
       render: (value) => (
-        <span className="font-medium text-white">
-          ${value.toLocaleString()}
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+          ${value.toLocaleString("es-CO")}
         </span>
       ),
     },

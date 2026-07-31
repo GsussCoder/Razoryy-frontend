@@ -1,12 +1,41 @@
 import { useState } from 'react';
-import { Lock, Loader2, CheckCircle } from 'lucide-react';
-import { apiClient } from '../services/apiClient';
+import { useNavigate } from 'react-router-dom';
+import { Lock, Loader2, HelpCircle } from 'lucide-react';
 import { useChangePassword } from '../hooks/userChangePassword';
+import { useAuth } from '../contexts/AuthContext';
+import { useBreakpoint } from '../tours/useBreakpoint';
+import { TourManager } from '../tours/TourManager';
+import { TourStorage } from '../tours/storage';
+
+// El superadmin no tiene onboarding: el botón "Ver tutorial de nuevo" no se
+// muestra en ese caso (ver misma exclusión en tours/TourProvider.jsx).
+const EXCLUDED_ROLES = ['superadmin'];
 
 export default function UserAccount() {
   const { changePassword, loading, error, setError } = useChangePassword();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const isMobile = useBreakpoint();
+
+  const showTourButton = !!user && !EXCLUDED_ROLES.includes(user.role);
+
+  // Varios pasos del tour (stats, accesos rápidos) solo existen en /dashboard,
+  // así que navegamos ahí, reseteamos el estado "completado" y disparamos de
+  // nuevo la cadena sidebar -> dashboard.
+  const handleRestartTour = () => {
+    TourStorage.resetAll();
+    navigate('/dashboard');
+    // Pequeño delay para que AdminOverview/EmployeeOverview terminen de
+    // montar y registrar sus tours antes de arrancarlos.
+    setTimeout(() => {
+      TourManager.startChain(['sidebar', 'dashboard'], {
+        role: user.role,
+        isMobile,
+      });
+    }, 300);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +115,26 @@ export default function UserAccount() {
           </button>
         </div>
       </form>
+
+      {showTourButton && (
+        <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm max-w-lg mt-6">
+          <h3 className="font-semibold text-white mb-2 flex items-center gap-2">
+            <HelpCircle className="w-5 h-5" />
+            ¿Necesitas un repaso?
+          </h3>
+          <p className="text-sm text-slate-400 mb-4">
+            Puedes volver a ver el recorrido guiado del panel cuando quieras.
+          </p>
+          <button
+            type="button"
+            onClick={handleRestartTour}
+            className="w-full py-2.5 bg-slate-700 text-white rounded-lg hover:bg-slate-600 text-sm font-medium flex items-center justify-center gap-2"
+          >
+            <HelpCircle className="w-4 h-4" />
+            Ver tutorial de nuevo
+          </button>
+        </div>
+      )}
     </div>
   );
 }

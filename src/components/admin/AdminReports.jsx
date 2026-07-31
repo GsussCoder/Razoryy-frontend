@@ -14,6 +14,9 @@ import { RevenueTab } from "./report/RevenueTab";
 import { BarbersTab } from "./report/BarbersTab";
 import { ExpensesTab } from "./report/ExpensesTab";
 import { BoxLookupTab } from "./report/BoxLookupTab";
+import { usePageTour } from "../../tours/usePageTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { createReportsTour } from "../../tours/steps/reportsTour";
 
 const TABS = [
   { id: "revenue", label: "Ingresos diarios", icon: TrendingUp },
@@ -33,6 +36,9 @@ export default function AdminReports() {
     .split("T")[0];
 
   const [startDate, setStartDate] = useState(firstDayOfMonth);
+  const isMobile = useBreakpoint();
+
+  usePageTour("reports", () => createReportsTour({ isMobile }));
   const [endDate, setEndDate] = useState(today);
   const [activeTab, setActiveTab] = useState("revenue");
   const [selectedBox, setSelectedBox] = useState(null);
@@ -66,7 +72,7 @@ export default function AdminReports() {
   };
 
   return (
-    <div className="space-y-4">
+    <div id="panel-reports" className="space-y-4">
       {/* Header Principal */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
@@ -77,7 +83,7 @@ export default function AdminReports() {
         </div>
 
         {/* Filtros de Fecha Adaptables */}
-        <div className="flex items-center gap-2 w-full md:w-auto">
+        <div id="data-filter-date-range" className="flex items-center gap-2 w-full md:w-auto">
           <div className="flex-1 md:flex-none bg-slate-800/80 border border-slate-700 p-2 sm:px-3 sm:py-1.5 rounded-xl">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1.5 sm:hidden">
               <Calendar className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
@@ -130,7 +136,7 @@ export default function AdminReports() {
       <ReportKpiCards balance={balance} isLoading={isLoading} />
 
       {/* Pestañas de Navegación idénticas al estilo TicketsFilters */}
-      <div className="bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      <div id="reports-by-operations" className="bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
