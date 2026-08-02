@@ -7,6 +7,25 @@ body {
   color: #f1f5f9;
 }
 
+/* Adaptación para el menú desplegable y texto del teléfono */
+.phone-input-dark .PhoneInput {
+  display: flex;
+  align-items: center;
+}
+
+.phone-input-dark .PhoneInputCountrySelect {
+  background-color: #1e293b !important; /* bg-slate-800 */
+  color: #ffffff !important;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.phone-input-dark .PhoneInputCountryIcon--border {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
 #root {
   width: 100%;
   min-height: 100vh;

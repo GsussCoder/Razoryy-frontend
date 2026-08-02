@@ -1,11 +1,20 @@
-import { CheckCircle2, Calendar, Scissors, User, MapPin } from "lucide-react";
+import { CheckCircle2, Calendar, Scissors, User, MapPin, Plus } from "lucide-react";
 
-export function BookingSuccess({ barbershop, selectedService, selectedBarber, selectedDate, selectedTime, customerData }) {
+// 1. Agregamos la prop "onNewBooking" para manejar el reinicio del flujo
+export function BookingSuccess({ 
+  barbershop, 
+  selectedService, 
+  selectedBarber, 
+  selectedDate, 
+  selectedTime, 
+  customerData,
+  onNewBooking 
+}) {
   const fmt = (dateStr) =>
     new Date(dateStr).toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900/95 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6 text-center">
         {/* Ícono animado */}
         <div className="relative mx-auto w-24 h-24">
@@ -26,14 +35,14 @@ export function BookingSuccess({ barbershop, selectedService, selectedBarber, se
         </div>
 
         {/* Resumen de la cita */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden text-left">
+        <div className="bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden text-left">
           {[
             { icon: MapPin,     label: "Lugar",    value: barbershop.barberName },
             { icon: Scissors,   label: "Servicio", value: selectedService?.nameService },
             { icon: User,       label: "Barbero",  value: selectedBarber?.name },
             { icon: Calendar,   label: "Cliente",  value: `${customerData.name} ${customerData.lastname}` },
           ].map((row, idx) => (
-            <div key={idx} className={`flex items-center gap-3 px-5 py-3.5 ${idx < 3 ? "border-b border-slate-800" : ""}`}>
+            <div key={idx} className={`flex items-center gap-3 px-5 py-3.5 ${idx < 3 ? "border-b border-slate-700" : ""}`}>
               <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center shrink-0">
                 <row.icon className="w-4 h-4 text-indigo-400" />
               </div>
@@ -43,6 +52,18 @@ export function BookingSuccess({ barbershop, selectedService, selectedBarber, se
               </div>
             </div>
           ))}
+        </div>
+
+        {/* 2. Botón para agendar una nueva cita */}
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={onNewBooking}
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-600 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg shadow-indigo-500/20 cursor-pointer"
+          >
+            <Plus className="w-4 h-4 stroke-3" />
+            Agendar otra cita
+          </button>
         </div>
 
         <p className="text-xs text-slate-500">

@@ -95,7 +95,7 @@ export default function Booking() {
         appointmentTime: selectedTime,
         reason: customerData.reason,
       });
-      
+
       setBookingSuccess(true);
     } catch (err) {
       showError("No se pudo confirmar la reserva. Inténtalo de nuevo.");
@@ -103,6 +103,16 @@ export default function Booking() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleResetBooking = () => {
+    setBookingSuccess(false)
+    setSelectedService(null);
+    setSelectedBarber(null);
+    setSelectedDate("");
+    setSelectedTime("");
+    setCustomerData({ name: "", lastname: "", phone: "", email: "", reason: "" });
+    setStep(1);
   };
 
   const fmt = (dateStr) =>
@@ -117,7 +127,7 @@ export default function Booking() {
   // --- Estados de pantalla completa ---
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900/95 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
           <p className="text-sm text-slate-500 animate-pulse">
@@ -139,18 +149,24 @@ export default function Booking() {
         selectedDate={selectedDate}
         selectedTime={selectedTime}
         customerData={customerData}
+        onNewBooking={handleResetBooking}
       />
     );
 
   // --- Wizard principal ---
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-slate-900/95 text-slate-100">
       <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
         {/* Encabezado de la barbería */}
         <div className="text-center space-y-1">
           <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-3">
             <span className="text-2xl font-black text-indigo-600">
-              {barbershop.barberName.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+              {barbershop.barberName
+                .split(" ")
+                .slice(0, 2)
+                .map((w) => w[0])
+                .join("")
+                .toUpperCase()}
             </span>
           </div>
           <h1 className="text-2xl font-bold text-white">
@@ -163,7 +179,7 @@ export default function Booking() {
         <BookingProgress current={step} />
 
         {/* Tarjeta del paso actual */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6">
+        <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-5 sm:p-6">
           {step === 1 && (
             <StepService
               services={barbershop.services}
@@ -216,7 +232,12 @@ export default function Booking() {
 
         <p className="text-center text-xs text-slate-600">
           Powered by{" "}
-          <a href="/" className="text-slate-500 font-semibold hover:text-indigo-500 transition-colors">Razoryy</a>
+          <a
+            href="/"
+            className="text-slate-500 font-semibold hover:text-indigo-500 transition-colors"
+          >
+            Razoryy
+          </a>
         </p>
       </div>
     </div>

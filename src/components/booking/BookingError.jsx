@@ -2,7 +2,7 @@ import { AlertCircle, ArrowLeft } from "lucide-react";
 
 export function BookingError() {
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900/95 flex items-center justify-center p-4">
       <div className="text-center space-y-4 max-w-sm">
         <div className="w-20 h-20 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mx-auto">
           <AlertCircle className="w-10 h-10 text-rose-400" />

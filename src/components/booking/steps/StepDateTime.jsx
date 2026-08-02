@@ -19,7 +19,7 @@ export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoa
           min={new Date().toISOString().split("T")[0]}
           value={selectedDate}
           onChange={(e) => onDateChange(e.target.value)}
-          className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+          className="scheme-dark w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
         />
       </div>
 

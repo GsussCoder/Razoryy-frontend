@@ -21,12 +21,12 @@ export function StepService({ services, selectedService, onSelect }) {
               className={`group w-full flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 text-left ${
                 isSelected
                   ? "border-indigo-500 bg-indigo-500/10"
-                  : "border-slate-800 bg-slate-800/60 hover:border-slate-700 hover:bg-slate-800"
+                  : "border-slate-700/50 bg-slate-800/95 hover:border-slate-700 hover:bg-slate-800"
               } cursor-pointer`}
             >
               {/* Ícono */}
               <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                isSelected ? "bg-indigo-500/20" : "bg-slate-700 group-hover:bg-slate-600"
+                isSelected ? "bg-indigo-500/20" : "bg-slate-700 group-hover:bg-slate-600/80"
               }`}>
                 <Scissors className={`w-5 h-5 ${isSelected ? "text-indigo-400" : "text-slate-400"}`} />
               </div>
@@ -36,7 +36,7 @@ export function StepService({ services, selectedService, onSelect }) {
                 <p className="font-semibold text-white text-sm truncate">{service.nameService}</p>
                 <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
                   <Clock className="w-3 h-3" />
-                  45 min aprox.
+                  20 min aprox.
                 </p>
               </div>
 

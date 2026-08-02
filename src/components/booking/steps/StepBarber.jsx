@@ -30,7 +30,7 @@ export function StepBarber({ barbers, selectedBarber, onSelect, onBack }) {
               className={`group w-full flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 text-left ${
                 isSelected
                   ? "border-indigo-500 bg-indigo-500/10"
-                  : "border-slate-800 bg-slate-800/60 hover:border-slate-700 hover:bg-slate-800"
+                  : "border-slate-700/50 bg-slate-800/60 hover:border-slate-700 hover:bg-slate-800"
               } cursor-pointer`}
             >
               <Avatar name={barber.name} />
