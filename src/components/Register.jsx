@@ -163,8 +163,8 @@ export default function Register() {
       <header className="shrink-0 px-4 py-4 border-b border-slate-800">
         <div className="max-w-lg mx-auto flex items-center justify-between">
           <a href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <img src={RazoryyLogo} alt="Razoryy" className="w-5 h-5" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={RazoryyLogo} alt="Razoryy logo" />
             </div>
             <span className="text-base font-bold text-white">
               Razor<span className="text-indigo-400">yy</span>
