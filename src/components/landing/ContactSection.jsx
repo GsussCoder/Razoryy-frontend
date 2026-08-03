@@ -51,7 +51,7 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div className="mx-auto max-w-md bg-slate-800 rounded-xl p-6">
+        <div className="mx-auto max-w-md border border-slate-700 bg-slate-800 rounded-xl p-6">
           <form onSubmit={onSubmitContactForm} className="space-y-4">
             <div>
               <label htmlFor="contact-name" className="ml-2">

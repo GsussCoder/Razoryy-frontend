@@ -27,16 +27,17 @@ export default function Login() {
               href="/"
               className="flex items-center justify-center gap-2 w-fit mb-1"
             >
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <img src={RazoryyLogo} alt="Razoryy" className="w-5 h-5" />
+              <div className="w-9 h-9 flex items-center justify-center">
+                <img src={RazoryyLogo} alt="Razoryy" />
               </div>
               <span className="text-base font-bold text-white">
                 Razor<span className="text-indigo-400">yy</span>
               </span>
             </a>
-            <p className="w-fit text-sm text-slate-400">¿Ya eres barbero?</p>
+            <p className="w-fit text-xs font-semibold text-slate-400">¿Ya eres barbero?</p>
           </div>
         </header>
+        
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
           <h2 className="text-xl font-semibold text-white text-center">
             Iniciar Sesión
@@ -92,7 +93,7 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />

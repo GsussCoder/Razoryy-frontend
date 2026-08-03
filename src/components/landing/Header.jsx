@@ -5,7 +5,7 @@ import RazoryyLogo from "../../assets/logo.svg";
 const linkStyles =
   "relative px-4 py-2 text-sm text-slate-300 md:hover:text-white md:active:text-white transition-colors cursor-pointer group after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:bg-indigo-400 after:scale-x-0 md:hover:after:scale-x-100 md:active:after:scale-x-100 after:transition-transform after:duration-300 after:origin-center select-none touch-manipulation [webkit-tap-highlight-color:transparent]";
 
-export function Header({ scrollToContact, scrollToPrice }) {
+export function Header({scrollToInit, scrollToAboutUs, scrollToContact, scrollToPrice }) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Manejador para cerrar el menú móvil antes de ejecutar cualquier acción
@@ -18,7 +18,7 @@ export function Header({ scrollToContact, scrollToPrice }) {
     <header className="fixed top-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
-          <figure className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center">
+          <figure className="w-9 h-9 flex items-center justify-center">
             <img src={RazoryyLogo} alt="Logo de Razoryy" />
           </figure>
           <span className="text-lg font-bold text-white">
@@ -28,11 +28,17 @@ export function Header({ scrollToContact, scrollToPrice }) {
 
         {/* Botones para Escritorio */}
         <div className="hidden md:flex items-center gap-3">
-          <button onClick={scrollToContact} className={linkStyles}>
-            Contacto
+          <button onClick={scrollToInit} className={linkStyles}>
+            Inicio
+          </button>
+          <button onClick={scrollToAboutUs} className={linkStyles}>
+            Nosotros
           </button>
           <button onClick={scrollToPrice} className={linkStyles}>
-            Precios
+            Planes
+          </button>
+          <button onClick={scrollToContact} className={linkStyles}>
+            Contacto
           </button>
           <a href="/login" className={linkStyles}>
             Soy barbero

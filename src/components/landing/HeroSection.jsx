@@ -1,8 +1,8 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 
-export function HeroSection({ scrollToContact }) {
+export function HeroSection() {
   return (
-    <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+    <section id="hero-section" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
           Gestiona tu barbería de forma{" "}
