@@ -106,12 +106,18 @@ export default function Booking() {
   };
 
   const handleResetBooking = () => {
-    setBookingSuccess(false)
+    setBookingSuccess(false);
     setSelectedService(null);
     setSelectedBarber(null);
     setSelectedDate("");
     setSelectedTime("");
-    setCustomerData({ name: "", lastname: "", phone: "", email: "", reason: "" });
+    setCustomerData({
+      name: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      reason: "",
+    });
     setStep(1);
   };
 
@@ -159,20 +165,30 @@ export default function Booking() {
       <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
         {/* Encabezado de la barbería */}
         <div className="text-center space-y-1">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-3">
-            <span className="text-2xl font-black text-indigo-600">
-              {barbershop.barberName
-                .split(" ")
-                .slice(0, 2)
-                .map((w) => w[0])
-                .join("")
-                .toUpperCase()}
-            </span>
-          </div>
+          {barbershop.barbershopLogo ? (
+            <figure className="w-14 h-14 rounded-md flex items-center justify-center mx-auto mb-3">
+              <img
+                src={barbershop.barbershopLogo}
+                alt={`Logo de ${barbershop.barberName}`}
+                className="w-14 h-14 rounded-md"
+              />
+            </figure>
+          ) : (
+            <div className="w-14 h-14 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-3">
+              <span className="text-2xl font-black text-indigo-600">
+                {barbershop.barberName
+                  .split(" ")
+                  .slice(0, 2)
+                  .map((w) => w[0])
+                  .join("")
+                  .toUpperCase()}
+              </span>
+            </div>
+          )}
           <h1 className="text-2xl font-bold text-white">
             {barbershop.barberName}
           </h1>
-          <p className="text-xs text-slate-500">Reserva tu cita fácilmente</p>
+          <p className="text-xs text-slate-500">¡Reserva aquí facilmente tu cita!</p>
         </div>
 
         {/* Progreso */}

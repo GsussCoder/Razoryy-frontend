@@ -34,34 +34,30 @@ export default function AdminSettings() {
   //   updatePrimaryColor(newColor);
   // };
 
-  // const handleLogoUpload = async (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  //   const validTypes = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
-  //   if (!validTypes.includes(file.type)) {
-  //     alert('Solo se permiten archivos JPG, PNG, SVG o WebP');
-  //     return;
-  //   }
+    const validTypes = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      alert('Solo se permiten archivos JPG, PNG, SVG o WebP');
+      return;
+    }
 
-  //   if (file.size > 2 * 1024 * 1024) {
-  //     alert('El archivo no debe superar los 2MB');
-  //     return;
-  //   }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('El archivo no debe superar los 2MB');
+      return;
+    }
 
-  //   setUploading(true);
-  //   try {
-  //     await uploadLogo(file);
-  //   } catch (err) {
-  //     alert('Error al subir el logo: ' + err.message);
-  //   } finally {
-  //     setUploading(false);
-  //   }
-  // };
-
-  // const handleDeleteLogo = async () => {
-  //   await deleteLogo();
-  // };
+    setUploading(true);
+    try {
+      await uploadLogo(file);
+    } catch (err) {
+      alert('Error al subir el logo: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSaveName = async () => {
     try {
@@ -78,7 +74,6 @@ export default function AdminSettings() {
       </div>
 
       <div className="space-y-6 max-w-2xl">
-        {/* Nombre del negocio */}
         <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
           <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
             <CreditCard className="w-5 h-5" />
@@ -94,7 +89,7 @@ export default function AdminSettings() {
             <button
               onClick={handleSaveName}
               disabled={saving}
-              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm whitespace-nowrap"
+              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm whitespace-nowrap cursor-pointer"
             >
               {saving ? "Guardando..." : "Guardar"}
             </button>
@@ -136,11 +131,11 @@ export default function AdminSettings() {
         )} */}
 
         {/* Logo - solo para standard y professional */}
-        {/* {can(FEATURES.BRAND_SETTINGS) && (
+        {can(FEATURES.BRAND_SETTINGS) && (
           <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
             <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
               <Upload className="w-5 h-5" />
-              Logo / Imagen del local
+              Logo / Imagen de la barbería
             </h3>
             <div className="flex items-start gap-4">
               {branding.logo ? (
@@ -150,12 +145,6 @@ export default function AdminSettings() {
                     alt="Logo"
                     className="w-24 h-24 rounded-lg object-cover border border-slate-600"
                   />
-                  <button
-                    onClick={handleDeleteLogo}
-                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
                 </div>
               ) : (
                 <div className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-600 flex items-center justify-center">
@@ -166,9 +155,13 @@ export default function AdminSettings() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm"
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm cursor-pointer"
                 >
-                  {uploading ? 'Subiendo...' : branding.logo ? 'Cambiar logo' : 'Subir logo'}
+                  {uploading
+                    ? "Subiendo..."
+                    : branding.logo
+                      ? "Cambiar logo"
+                      : "Subir logo"}
                 </button>
                 <input
                   ref={fileInputRef}
@@ -177,11 +170,13 @@ export default function AdminSettings() {
                   onChange={handleLogoUpload}
                   className="hidden"
                 />
-                <p className="text-xs text-slate-500 mt-2">JPG, PNG, SVG o WebP. Máximo 2MB.</p>
+                <p className="text-xs text-slate-500 mt-2">
+                  JPG, PNG, SVG o WebP. Máximo 20MB.
+                </p>
               </div>
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Membresía (solo lectura) */}
         <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">

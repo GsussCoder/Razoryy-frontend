@@ -5,16 +5,19 @@
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
-async function request(endpoint, options = {}) {
-  const token = sessionStorage.getItem('authToken');
-  
+async function request(endpoint, options = {}, isFormData) {
+  const token = sessionStorage.getItem("authToken");
+
   const headers = {
-    'Content-Type': 'application/json',
     ...options.headers,
   };
 
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json"
+  }
+
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   const config = {
@@ -22,33 +25,39 @@ async function request(endpoint, options = {}) {
     headers,
   };
 
-  if (config.body && typeof config.body === 'object' && !(config.body instanceof FormData)) {
+  if (
+    config.body &&
+    typeof config.body === "object" &&
+    !(config.body instanceof FormData)
+  ) {
     config.body = JSON.stringify(config.body);
   }
 
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, config);
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+      throw new Error(
+        errorData.message || `Error ${response.status}: ${response.statusText}`,
+      );
     }
 
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
       return await response.json();
     }
-    
+
     return await response.text();
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     throw error;
   }
 }
 
 export const apiClient = {
-  get: (endpoint) => request(endpoint, { method: 'GET' }),
-  post: (endpoint, body) => request(endpoint, { method: 'POST', body }),
-  patch: (endpoint, body) => request(endpoint, { method: 'PATCH', body }),
-  delete: (endpoint) => request(endpoint, { method: 'DELETE' }),
+  get: (endpoint) => request(endpoint, { method: "GET" }),
+  post: (endpoint, body, isFormData) => request(endpoint, { method: "POST", body }, isFormData),
+  patch: (endpoint, body) => request(endpoint, { method: "PATCH", body }),
+  delete: (endpoint) => request(endpoint, { method: "DELETE" }),
 };

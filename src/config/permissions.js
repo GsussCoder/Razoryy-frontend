@@ -30,6 +30,7 @@ export const FEATURES = {
 
 // ---------- ADMIN: cada plan extiende al anterior ----------
 const ADMIN_PRO = [
+  FEATURES.BRAND_SETTINGS,
   FEATURES.NAV_EMPLOYEES,
   FEATURES.NAV_SERVICES,
   FEATURES.NAV_PRODUCTS,
