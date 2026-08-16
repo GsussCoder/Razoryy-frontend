@@ -62,7 +62,7 @@ export default function Booking() {
           selectedBarber.id,
           selectedDate,
         );
-        setAvailableSlots(slots);
+        setAvailableSlots(Array.isArray(slots) ? slots : []);
       } catch {
         setAvailableSlots([]);
       } finally {
@@ -240,7 +240,7 @@ export default function Booking() {
                 service: selectedService?.nameService,
                 barber: selectedBarber?.name,
                 date: fmt(selectedDate),
-                time: selectedTime.substring(0, 5),
+                time: selectedTime && typeof selectedTime === 'string' ? selectedTime.substring(0, 5) : "—",
               }}
             />
           )}

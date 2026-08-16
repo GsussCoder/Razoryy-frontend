@@ -53,7 +53,7 @@ export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoa
                       : "bg-slate-800 border-slate-700 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-400"
                   } cursor-pointer`}
                 >
-                  {time.substring(0, 5)}
+                  {time && typeof time === 'string' ? time.substring(0, 5) : "00:00"}
                 </button>
               ))}
             </div>
