@@ -16,7 +16,7 @@ import { useRegister } from "../hooks/useRegister";
 const MEMBERSHIP_PLANS = [
   {
     value: "PRO",
-    label: "PRO (Prueba gratis de 20 días)",
+    label: "Pro (Prueba gratis de 20 días)",
     price: "30.000",
     description:
       "Plan independiente, hasta 2 barberos, 1 sucursal y más operaciones.",
@@ -45,7 +45,7 @@ const INITIAL_STATE = {
   number: "",
   email: "",
   password: "",
-  confirmPassword: ""
+  confirmPassword: "",
 };
 
 export default function Register() {
@@ -325,14 +325,23 @@ export default function Register() {
                     <label className="block text-xs text-slate-400 mb-1">
                       País
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="country"
-                      value={formData.locationData.country}
+                      value={formData.locationData.country || ""}
                       onChange={handleLocationChange}
-                      placeholder="Colombia"
                       className={inputClass}
-                    />
+                    >
+                      <option disabled value="" selected>
+                        --Seleccionar país--
+                      </option>
+                      <option value="Colombia">Colombia</option>
+                      <option value="Peru">Peru</option>
+                      <option value="Chile">Chile</option>
+                      <option value="Argentina">Argentina</option>
+                      <option value="Mexico">México</option>
+                      <option value="Espana">España</option>
+                      <option value="Ecuador">Ecuador</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">
@@ -343,20 +352,20 @@ export default function Register() {
                       name="state"
                       value={formData.locationData.state}
                       onChange={handleLocationChange}
-                      placeholder="Sucre"
+                      placeholder="Ej. Medellín, Lima, Santiago"
                       className={inputClass}
                     />
                   </div>
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">
-                      Ciudad
+                      Localidad / Distrito
                     </label>
                     <input
                       type="text"
                       name="city"
                       value={formData.locationData.city}
                       onChange={handleLocationChange}
-                      placeholder="Sincelejo"
+                      placeholder="Ej. Poblado, Miraflores, Provincia"
                       className={inputClass}
                     />
                   </div>
@@ -465,7 +474,7 @@ export default function Register() {
 
               {/* <p className="text-xs text-slate-500">
                 Al registrarte aceptas nuestros{" "}
-                <a href="#" className="text-indigo-400 hover:underline">
+                <a href="/terms" className="text-indigo-400 hover:underline">
                   términos y condiciones
                 </a>
                 .
