@@ -10,8 +10,6 @@ export function BookingSuccess({
   customerData,
   onNewBooking 
 }) {
-  const fmt = (dateStr) =>
-    new Date(dateStr).toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
 
   return (
     <div className="min-h-screen bg-slate-900/95 flex items-center justify-center p-4">
@@ -28,9 +26,9 @@ export function BookingSuccess({
           <h2 className="text-2xl font-bold text-white mb-1">¡Cita confirmada!</h2>
           <p className="text-slate-400 text-sm">
             Te esperamos el{" "}
-            <span className="text-indigo-400 font-semibold capitalize">{fmt(selectedDate)}</span>
+            <span className="text-indigo-400 font-semibold capitalize">{selectedDate}</span>
             {" "}a las{" "}
-            <span className="text-indigo-400 font-semibold">{selectedTime.substring(0, 5)}</span>
+            <span className="text-indigo-400 font-semibold">{selectedTime}</span>
           </p>
         </div>
 

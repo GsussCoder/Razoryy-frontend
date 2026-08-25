@@ -122,13 +122,29 @@ export default function Booking() {
   };
 
   const fmt = (dateStr) =>
-    dateStr
+      dateStr
       ? new Date(dateStr).toLocaleDateString("es-CO", {
           weekday: "long",
           day: "numeric",
           month: "long",
+          timeZone: "UTC"
         })
       : "—";
+
+  const timeFmt = (timeStr) => {
+    const [hours, minutes] = timeStr.split(":");
+
+    const timeObj = new Date();
+
+    timeObj.setHours(Number(hours), Number(minutes));
+
+    return new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }).format(timeObj)
+      || "—";
+  };
 
   // --- Estados de pantalla completa ---
   if (loading) {
@@ -152,8 +168,8 @@ export default function Booking() {
         barbershop={barbershop}
         selectedService={selectedService}
         selectedBarber={selectedBarber}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
+        selectedDate={fmt(selectedDate)}
+        selectedTime={timeFmt(selectedTime)}
         customerData={customerData}
         onNewBooking={handleResetBooking}
       />
@@ -240,7 +256,7 @@ export default function Booking() {
                 service: selectedService?.nameService,
                 barber: selectedBarber?.name,
                 date: fmt(selectedDate),
-                time: selectedTime && typeof selectedTime === 'string' ? selectedTime.substring(0, 5) : "—",
+                time: timeFmt(selectedTime),
               }}
             />
           )}

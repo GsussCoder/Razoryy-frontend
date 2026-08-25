@@ -1,6 +1,30 @@
 import { Calendar, AlertCircle, Loader2, ArrowLeft } from "lucide-react";
 
-export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoadingSlots, onDateChange, onTimeSelect, onNext, onBack }) {
+export function StepDateTime({
+  selectedDate,
+  selectedTime,
+  availableSlots,
+  isLoadingSlots,
+  onDateChange,
+  onTimeSelect,
+  onNext,
+  onBack,
+}) {
+  const timeFmt = (timeStr) => {
+    const [hours, minutes] = timeStr.split(":");
+
+    const timeObj = new Date();
+
+    timeObj.setHours(Number(hours), Number(minutes));
+
+    return new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }).format(timeObj)
+      || "—";
+  };
+
   return (
     <div className="space-y-5">
       <div>
@@ -8,12 +32,16 @@ export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoa
           <Calendar className="w-5 h-5 text-indigo-400" />
           Fecha y hora
         </h3>
-        <p className="text-xs text-slate-500 mt-0.5">Elige cuándo quieres tu cita</p>
+        <p className="text-xs text-slate-500 mt-0.5">
+          Elige cuándo quieres tu cita
+        </p>
       </div>
 
       {/* Selector de fecha */}
       <div>
-        <label className="block text-xs font-medium text-slate-400 mb-2">Fecha</label>
+        <label className="block text-xs font-medium text-slate-400 mb-2">
+          Fecha
+        </label>
         <input
           type="date"
           min={new Date().toISOString().split("T")[0]}
@@ -53,7 +81,7 @@ export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoa
                       : "bg-slate-800 border-slate-700 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-400"
                   } cursor-pointer`}
                 >
-                  {time && typeof time === 'string' ? time.substring(0, 5) : "00:00"}
+                  {timeFmt(time)}
                 </button>
               ))}
             </div>
@@ -62,7 +90,10 @@ export function StepDateTime({ selectedDate, selectedTime, availableSlots, isLoa
       )}
 
       <div className="flex items-center justify-between pt-2">
-        <button onClick={onBack} className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors cursor-pointer">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
           <ArrowLeft className="w-3.5 h-3.5" />
           Volver
         </button>
