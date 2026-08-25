@@ -24,7 +24,7 @@ export function Footer({ scrollToInit, scrollToAboutUs, scrollToContact, scrollT
             <button onClick={() => scrollToAboutUs()} className={linkStyles}>Nosotros</button>
             <button onClick={() => scrollToPrice()} className={linkStyles}>Planes</button>
             <button onClick={() => scrollToContact()} className={linkStyles}>Contacto</button>
-            <a href="#" className={linkStyles}>Términos y condiciones</a> { /* /terms */}
+            <a href="/terms" className={linkStyles}>Términos y condiciones</a>
           </div>
         </div>
 
