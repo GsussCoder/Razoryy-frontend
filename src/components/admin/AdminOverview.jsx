@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Calendar,
   DollarSign,
@@ -6,11 +6,9 @@ import {
   Plus,
   Scissors,
   Loader2,
-  AlertCircle,
   UserPlus2,
   Flame,
 } from "lucide-react";
-import { apiClient } from "../../services/apiClient";
 import { usePermissions } from "../../hooks/usePermissions";
 import { FEATURES } from "../../config/permissions";
 import { useEmployees } from "../../hooks/useEmployees";
@@ -21,7 +19,7 @@ import { useAppointments } from "../../hooks/useAppointments";
 import { EmployeeFormModal } from "../modals/EmployeeFormModal";
 import { PaymentFormModal } from "../modals/PaymentFormModal";
 import RecentPaymentsTable from "../ui/RecentPaymentsTable";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BoxStatusBanner } from "./box/BoxStatusBanner";
 import { useBoxes } from "../../hooks/boxes/useBoxes";
 import { useTickets } from "../../hooks/tickets/useTickets";
@@ -46,7 +44,7 @@ export default function AdminOverview() {
   const { data: appointments } = useAppointments();
   const { data: payments } = usePayments();
   const { data: boxes, refetch: refetchBox, openBox, closeBox } = useBoxes();
-  const { data: tickets, refetch: refetchTicket, assignService, createFastTicket } = useTickets();
+  const { refetch: refetchTicket, assignService, createFastTicket } = useTickets();
   const navigate = useNavigate();
   const [showFormModalEmployee, setShowFormModalEmployee] = useState(false);
   const [showPaymentFormModal, setShowPaymentFormModal] = useState(false);
@@ -69,7 +67,15 @@ export default function AdminOverview() {
   const todayIncome = todayHaircuts.reduce((acumulator, haircut) => {
     return acumulator + haircut.amount;
   }, 0);
-  const todayAppointments = 0;
+
+  console.log(appointments)
+
+  const todayAppointments = appointments.filter((appointment) => {
+    const today = new Date(0, 0, 0);
+    const appointmentDate = new Date(appointment.appointmentDate);
+
+    return appointmentDate.getDate() > today.getDate();
+  }).length;
 
   const statCards = [
     {
@@ -83,7 +89,7 @@ export default function AdminOverview() {
       icon: Flame,
       label: "Servicios realizados hoy",
       value: todayHaircuts.length,
-      iconColor: "text-red-500",
+      iconColor: "text-indigo-500",
       feature: FEATURES.VIEW_INCOME_STATS,
     },
     {
@@ -95,7 +101,7 @@ export default function AdminOverview() {
     },
     {
       icon: Users,
-      label: "Barberos activos",
+      label: "Empleados activos",
       value: activeEmployees,
       iconColor: "text-purple-500",
       feature: null,
@@ -112,8 +118,8 @@ export default function AdminOverview() {
   const quickActions = [
     {
       icon: UserPlus2,
-      label: "Asignar corte",
-      iconColor: "text-red-500",
+      label: "Asignar servicio",
+      iconColor: "text-indigo-500",
       onClick: () => setShowTicketModal(true),
       feature: FEATURES.NAV_PAYMENTS,
     },
@@ -126,7 +132,7 @@ export default function AdminOverview() {
     },
     {
       icon: Plus,
-      label: "Nuevo barbero",
+      label: "Nuevo empleado",
       iconColor: "text-purple-500",
       onClick: () => setShowFormModalEmployee(true),
       feature: FEATURES.MANAGE_EMPLOYEES,

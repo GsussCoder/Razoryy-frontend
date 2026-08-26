@@ -57,6 +57,21 @@ export default function AppointmentPage() {
     return dateObj.toISOString().split("T")[0];
   };
 
+  const timeFmt = (timeStr) => {
+    const [hours, minutes] = timeStr.split(":");
+
+    const timeObj = new Date();
+
+    timeObj.setHours(Number(hours), Number(minutes));
+
+    return new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }).format(timeObj)
+      || "—";
+  };
+
   const handleAction = async (actionFn, id) => {
     setActionLoading(true);
     try {
@@ -86,6 +101,7 @@ export default function AppointmentPage() {
         isLoading={isLoading}
         onSelectAppointment={setSelectedAppointment}
         formatDateKey={formatDateKey}
+        timeFmt={timeFmt}
       />
 
       <CalendarMobileView
@@ -94,6 +110,7 @@ export default function AppointmentPage() {
         isLoading={isLoading}
         onSelectAppointment={setSelectedAppointment}
         formatDateKey={formatDateKey}
+        timeFmt={timeFmt}
       />
 
       <AppointmentModal
@@ -101,6 +118,7 @@ export default function AppointmentPage() {
         onClose={() => setSelectedAppointment(null)}
         actionLoading={actionLoading}
         role={role}
+        timeFmt={timeFmt}
       />
     </div>
   );

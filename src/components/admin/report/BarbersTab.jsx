@@ -11,7 +11,7 @@ function formatCurrency(amount) {
 export function BarbersTab({ barbers, isLoading }) {
   const columns = [
     {
-      header: "Barbero",
+      header: "Empleado",
       accessor: "userName",
       render: (v, row) => {
         const name = v || row.barberName || "Sin asignar";
@@ -19,7 +19,7 @@ export function BarbersTab({ barbers, isLoading }) {
       },
     },
     {
-      header: "Servicios",
+      header: "Servicios realizados",
       accessor: "completedServices",
       render: (v, row) => {
         const count = v ?? row.ticketsCount ?? 0;

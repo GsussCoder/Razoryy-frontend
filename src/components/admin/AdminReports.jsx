@@ -21,7 +21,7 @@ import { createReportsTour } from "../../tours/steps/reportsTour";
 const TABS = [
   { id: "revenue", label: "Ingresos diarios", icon: TrendingUp },
   { id: "expenses", label: "Gastos por categoría", icon: PieChart },
-  { id: "barbers", label: "Rendimiento barberos", icon: Users },
+  { id: "barbers", label: "Rendimiento de empleados", icon: Users },
   { id: "box", label: "Consulta de caja", icon: Archive },
 ];
 

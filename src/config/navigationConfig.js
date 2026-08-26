@@ -17,7 +17,7 @@ import { FEATURES } from "./permissions";
 
 export const NAVIGATION_BY_ROLE = {
   admin: {
-    roleLabel: "Dueño",
+    roleLabel: "Admin",
     top: [
       {
         to: "/dashboard",
@@ -63,7 +63,7 @@ export const NAVIGATION_BY_ROLE = {
       },
       {
         to: "/employees",
-        label: "Barberos",
+        label: "Empleados",
         icon: Users,
         feature: FEATURES.NAV_EMPLOYEES,
       },
@@ -91,7 +91,7 @@ export const NAVIGATION_BY_ROLE = {
     ],
   },
   employee: {
-    roleLabel: "Barbero",
+    roleLabel: "Empleado",
     top: [
       {
         to: "/dashboard",
@@ -116,7 +116,7 @@ export const NAVIGATION_BY_ROLE = {
     bottom: [{ to: "/account", label: "Mi cuenta", icon: User, feature: null }],
   },
   superadmin: {
-    roleLabel: "Super Admin",
+    roleLabel: "Super admin",
     top: [
       {
         to: "/metrics",

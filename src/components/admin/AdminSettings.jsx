@@ -70,14 +70,14 @@ export default function AdminSettings() {
     <div id="panel-settings">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">Configuración</h2>
-        <p className="text-slate-400">Información y configuración del local.</p>
+        <p className="text-slate-400">Información y configuración de tu negocio.</p>
       </div>
 
       <div className="space-y-6 max-w-2xl">
         <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
           <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
             <CreditCard className="w-5 h-5" />
-            Nombre de la barberia
+            Nombre del negocio
           </h3>
           <div className="flex flex-col sm:flex-row gap-2">
             <input
@@ -135,7 +135,7 @@ export default function AdminSettings() {
           <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-sm">
             <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
               <Upload className="w-5 h-5" />
-              Logo / Imagen de la barbería
+              Logo / Imagen del negocio
             </h3>
             <div className="flex items-start gap-4">
               {branding.logo ? (

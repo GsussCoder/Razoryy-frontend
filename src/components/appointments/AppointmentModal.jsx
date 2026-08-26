@@ -12,6 +12,7 @@ export default function AppointmentModal({
   appointment,
   onClose,
   actionLoading,
+  timeFmt,
 }) {
   return (
     <Modal
@@ -65,7 +66,7 @@ export default function AppointmentModal({
                 <User className="w-4 h-4 text-indigo-400 shrink-0" />
                 <div className="truncate">
                   <p className="text-[10px] text-slate-400 uppercase font-bold">
-                    Barbero
+                    Quién atiende
                   </p>
                   <p className="font-semibold text-slate-200 truncate">
                     {appointment.userName}
@@ -95,7 +96,7 @@ export default function AppointmentModal({
                     Hora
                   </p>
                   <p className="font-semibold text-slate-200">
-                    {appointment.appointmentTime?.substring(0, 5)}
+                    {timeFmt(appointment.appointmentTime)}
                   </p>
                 </div>
               </div>

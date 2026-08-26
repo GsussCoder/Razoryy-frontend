@@ -5,7 +5,8 @@ export default function CalendarGrid({
   appointments, 
   isLoading, 
   onSelectAppointment, 
-  formatDateKey 
+  formatDateKey,
+  timeFmt,
 }) {
   const now = new Date();
 
@@ -57,7 +58,7 @@ export default function CalendarGrid({
               <div key={hour} className="grid grid-cols-8 min-h-18">
                 {/* Columna de la Hora Bloque */}
                 <div className="p-2 border-r border-slate-800 text-xs text-slate-400 font-mono text-center flex items-center justify-center bg-slate-950/40 shrink-0 font-bold">
-                  {hour}
+                  {timeFmt(hour)}
                 </div>
 
                 {/* Columnas por día */}
@@ -96,8 +97,8 @@ export default function CalendarGrid({
                           >
                             {/* Header de la tarjeta: Badge de Hora y Barbero */}
                             <div className="flex items-center justify-between gap-1 mb-1.5">
-                              <span className="font-mono text-[11px] font-extrabold bg-slate-950/40 px-2 py-0.5 rounded-md border border-white/10 tracking-wide text-white">
-                                {app.appointmentTime?.substring(0, 5)}
+                              <span className="font-mono text-[11px] font-extrabold bg-slate-950/40 px-2 py-0.5 rounded-md border border-white/10 tracking-wide text-white truncate">
+                                {timeFmt(app.appointmentTime)}
                               </span>
                               <span className="text-[10px] truncate text-slate-300 font-medium bg-slate-950/20 px-1.5 py-0.5 rounded">
                                 {app.userName}

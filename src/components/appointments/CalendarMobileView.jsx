@@ -6,7 +6,8 @@ export default function CalendarMobileView({
   appointments, 
   isLoading, 
   onSelectAppointment, 
-  formatDateKey 
+  formatDateKey,
+  timeFmt,
 }) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const now = new Date();
@@ -92,7 +93,7 @@ export default function CalendarMobileView({
                   {/* Header de la tarjeta Móvil */}
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="font-mono text-xs font-extrabold bg-slate-950/50 px-2 py-0.5 rounded-md border border-white/10 text-white tracking-wide">
-                      ⏰ {app.appointmentTime?.substring(0, 5)}
+                      {timeFmt(app.appointmentTime)}
                     </span>
 
                     <span className="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase border border-current tracking-wider">
@@ -109,7 +110,7 @@ export default function CalendarMobileView({
                   <div className="flex items-center justify-between gap-2 text-xs text-slate-300/90 mt-1">
                     <span className="truncate font-medium">{app.barberService}</span>
                     <span className="text-[10px] text-slate-400 shrink-0 bg-slate-950/30 px-1.5 py-0.5 rounded">
-                      💈 {app.userName}
+                      {app.userName}
                     </span>
                   </div>
                 </div>

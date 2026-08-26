@@ -58,7 +58,7 @@ export default function ExpensesPage() {
         <div>
           <h2 className="text-2xl font-bold text-white">Egresos y Salarios</h2>
           <p className="text-slate-400 text-sm">
-            Gestión de pagos de nómina a barberos y salidas operativas
+            Gestión de pagos de nómina de tus empleados y salidas operativas
           </p>
         </div>
 

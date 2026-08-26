@@ -31,8 +31,8 @@ export default function AdminEmployees() {
       header: "Cargo",
       accessor: "rol",
       render: (value) =>
-        value === "employee" ? (
-          <span>Barbero</span>
+        value === "EMPLOYEE" ? (
+          <span>Empleado</span>
         ) : (
           <span>{value[0].toUpperCase() + value.slice(1).toLowerCase()}</span>
         ),
@@ -88,8 +88,8 @@ export default function AdminEmployees() {
   return (
     <div id="panel-employees">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white">Barberos</h2>
-        <p className="text-slate-400">Gestiona el personal de tu barbería</p>
+        <h2 className="text-2xl font-bold text-white">Empleados</h2>
+        <p className="text-slate-400">Gestiona el personal de tu negocio</p>
       </div>
 
       <div className="space-y-4">
@@ -98,7 +98,7 @@ export default function AdminEmployees() {
           columns={columns}
           itemsPerPage={6}
           searchable={true}
-          searchPlaceholder="Buscar barbero..."
+          searchPlaceholder="Buscar empleado..."
           searchFields={["name", "user", "rol"]}
           emptyMessage={
             isLoading ? "Cargando..." : "No hay empleados registrados"
@@ -110,7 +110,7 @@ export default function AdminEmployees() {
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                Nuevo barbero
+                Nuevo empleado
               </button>
             )
           }

@@ -50,7 +50,7 @@ export default function AdminPayments() {
         }),
     },
     {
-      header: "Barbero",
+      header: "Empleado",
       accessor: "userName",
     },
     {

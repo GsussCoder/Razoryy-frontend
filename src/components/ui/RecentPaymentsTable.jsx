@@ -19,7 +19,7 @@ export default function RecentPaymentsTable({ payments = [], limit = 5 }) {
         }),
     },
     {
-      header: "Barbero",
+      header: "Empleado",
       accessor: "userName",
     },
     {

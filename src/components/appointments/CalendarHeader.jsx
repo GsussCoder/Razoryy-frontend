@@ -36,7 +36,7 @@ export default function CalendarHeader({
           Calendario de citas
         </h2>
         <p className="text-xs text-slate-400">
-          Visualiza y gestiona las reservas de la barbería
+          Visualiza y gestiona las reservas agendadas por tus clientes.
         </p>
 
         {/* Badge del Link de Agendamiento Público */}
