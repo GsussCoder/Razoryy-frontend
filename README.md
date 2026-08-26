@@ -1,16 +1,50 @@
-# React + Vite
+# Razoryy — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend de **Razoryy**, una plataforma SaaS multi-tenant de gestión de citas y finanzas para barberías. Permite a barberos independientes y barberías con una o varias sucursales administrar su agenda, y a sus clientes reservar citas mediante un enlace público, sin necesidad de llamadas ni mensajes.
 
-Currently, two official plugins are available:
+**Backend:** [razoryy-backend](https://github.com/GsussCoder/razoryy-backend) · **Demo:** https://razoryy.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React** — interfaz
+- **Vercel** — despliegue
+- Consume la API REST del [backend en Spring Boot](https://github.com/GsussCoder/razoryy-backend), autenticando con JWT
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Panel de administración para dueños de barbería (`ADMIN`) y barberos (`EMPLOYEE`)
+- Vista pública de reserva de citas por tenant, mediante enlace compartible
+- Gestión de agenda y disponibilidad de barberos
+- Autenticación y manejo de sesión con JWT
+- Interfaz adaptada a los distintos roles del sistema (`SUPER_ADMIN`, `ADMIN`, `EMPLOYEE`)
+
+*(En desarrollo: notificaciones automáticas vía WhatsApp)*
+
+## Cómo correrlo localmente
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/GsussCoder/razoryy-frontend.git
+cd razoryy-frontend
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno (ver .env.example)
+cp .env.example .env
+
+# Levantar en modo desarrollo
+npm run dev
+```
+
+> Necesitas el [backend](https://github.com/GsussCoder/razoryy-backend) corriendo (local o desplegado) y apuntar la URL de la API en tu `.env` local.
+
+## Estado del proyecto
+
+Funcional y desplegado en producción, en fase de validación de mercado.
+
+## Contacto
+
+¿Buscas un desarrollador frontend/full-stack para tu proyecto? Escríbeme en nadergomezj@gmail.com.
