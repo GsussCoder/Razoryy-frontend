@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 
 const STEPS = [
   { n: 1, label: "Servicio" },
-  { n: 2, label: "Barbero" },
+  { n: 2, label: "Profesional" },
   { n: 3, label: "Horario" },
   { n: 4, label: "Tus datos" },
 ];

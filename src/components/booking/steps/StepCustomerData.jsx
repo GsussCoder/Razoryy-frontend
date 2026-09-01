@@ -18,10 +18,10 @@ export function StepCustomerData({ customerData, onChange, onSubmit, onBack, isS
       <div className="bg-slate-800/60 border border-slate-700 rounded-xl px-4 py-3 space-y-1.5">
         <p className="text-xs font-medium uppercase tracking-wider mb-2">Tu cita</p>
         {[
-          { label: "Servicio", value: summary.service },
-          { label: "Barbero",  value: summary.barber },
-          { label: "Fecha",    value: summary.date },
-          { label: "Hora",     value: summary.time },
+          { label: "Servicio:", value: summary.service },
+          { label: "Profesional estetico:",  value: summary.barber },
+          { label: "Fecha:",    value: summary.date },
+          { label: "Hora:",     value: summary.time },
         ].map((row) => (
           <div key={row.label} className="flex justify-between items-center">
             <span className="text-xs text-slate-500">{row.label}</span>

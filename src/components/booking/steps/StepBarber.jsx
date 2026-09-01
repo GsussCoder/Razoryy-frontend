@@ -16,7 +16,7 @@ export function StepBarber({ barbers, selectedBarber, onSelect, onBack }) {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-bold text-white">Elige tu barbero</h3>
+        <h3 className="text-lg font-bold text-white">Elige al profesional</h3>
         <p className="text-xs text-slate-500 mt-0.5">¿Con quién quieres tu cita?</p>
       </div>
 
@@ -37,7 +37,7 @@ export function StepBarber({ barbers, selectedBarber, onSelect, onBack }) {
 
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-white text-sm">{barber.name}</p>
-                <p className="text-xs text-slate-500 mt-0.5">Barbero profesional</p>
+                <p className="text-xs text-slate-500 mt-0.5">Profesional estetico</p>
               </div>
 
               {isSelected && (

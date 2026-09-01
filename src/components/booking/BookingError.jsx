@@ -8,9 +8,9 @@ export function BookingError() {
           <AlertCircle className="w-10 h-10 text-rose-400" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white mb-2">Barbería no encontrada</h2>
+          <h2 className="text-xl font-bold text-white mb-2">Página no encontrada</h2>
           <p className="text-slate-400 text-sm">
-            El enlace que usaste no corresponde a ninguna barbería activa. Verifica el enlace e inténtalo de nuevo.
+            El enlace que usaste no corresponde a ninguna página activa. Verifica el enlace e inténtalo de nuevo.
           </p>
         </div>
         <button

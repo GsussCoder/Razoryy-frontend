@@ -44,6 +44,7 @@ export function AuthProvider({ children }) {
       membership,
       barberSlug,
       barbershopLogo,
+      telegramConnected
     } = apiResponse;
 
     // Normalizar rol
@@ -70,6 +71,7 @@ export function AuthProvider({ children }) {
       membership: normalizedMembership,
       barberSlug: barberSlug,
       barbershopLogo: barbershopLogo,
+      telegramConnected: telegramConnected,
     };
 
     setToken(token);

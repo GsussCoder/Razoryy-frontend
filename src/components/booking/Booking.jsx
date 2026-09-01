@@ -153,7 +153,7 @@ export default function Booking() {
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
           <p className="text-sm text-slate-500 animate-pulse">
-            Cargando barbería...
+            Cargando página...
           </p>
         </div>
       </div>

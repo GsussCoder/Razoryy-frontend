@@ -34,7 +34,7 @@ export default function Login() {
                 Razor<span className="text-indigo-400">yy</span>
               </span>
             </a>
-            <p className="w-fit text-xs font-semibold text-slate-400">¿Ya eres barbero?</p>
+            <p className="w-fit text-xs font-semibold text-slate-400">¿Ya tienes cuenta?</p>
           </div>
         </header>
         
