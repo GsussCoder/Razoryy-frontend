@@ -22,3 +22,20 @@ export function createAgendaTour({ role, isMobile }) {
 
   return steps;
 }
+
+export function createTelegramBtnTour({ role, isMobile }) {
+  const steps = [];
+
+  if (document.querySelector("#btn-telegram")) {
+    steps.push({
+      element: "#btn-telegram",
+      popover: {
+        title: "📢 " + (role === "employee" ? "Tus citas" : "Conectar telegram (Recomendado)"),
+        description: "Conecta con Telegram para recibir notificaciones cada que tus clientes agenden una cita. Se recomienda activar esta opción.",
+        side: isMobile ? "bottom" : "right",
+      },
+    });
+  }
+
+  return steps;
+}

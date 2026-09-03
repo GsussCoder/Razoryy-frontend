@@ -28,9 +28,10 @@ export class TourManager {
   }
 
   /**
-   * Arranca una secuencia de tours en orden. Si uno ya fue completado o no
-   * existe, salta al siguiente automáticamente. Cuando el último termina,
-   * llama a `onAllFinished` (opcional).
+   * Arranca una secuencia de tours en orden. Si uno ya fue completado EN SU
+   * VERSIÓN ACTUAL (o no existe), salta al siguiente automáticamente. Si el
+   * tour subió de versión desde la última vez que el usuario lo vio, se
+   * vuelve a mostrar. Cuando el último termina, llama a `onAllFinished`.
    *
    * Ej: TourManager.startChain(["sidebar", "dashboard"], { role, isMobile })
    */
@@ -42,7 +43,9 @@ export class TourManager {
       return;
     }
 
-    if (!TourRegistry.has(id) || TourStorage.isCompleted(id)) {
+    const currentVersion = TourRegistry.getVersion(id);
+
+    if (!TourRegistry.has(id) || TourStorage.isCompleted(id, currentVersion)) {
       this.startChain(rest, ctx, onAllFinished);
       return;
     }

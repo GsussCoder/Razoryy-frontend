@@ -9,6 +9,9 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useWebhooks } from "../../hooks/useWebhooks";
+import { createTelegramBtnTour } from "../../tours/steps/agendaTour";
+import { useBreakpoint } from "../../tours/useBreakpoint";
+import { usePageTour } from "../../tours/usePageTour";
 
 export default function CalendarHeader({
   currentDate,
@@ -20,6 +23,9 @@ export default function CalendarHeader({
   const { user } = useAuth();
   const { connectTelegram, isLoading: connecting } = useWebhooks();
   const [copied, setCopied] = useState(false);
+  const isMobile = useBreakpoint();
+
+  usePageTour("btn-telegram", () => createTelegramBtnTour({ role: user?.role, isMobile }), { page: "agenda" });
 
   const isTelegramConnected = user.telegramConnected;
 
@@ -78,21 +84,23 @@ export default function CalendarHeader({
           )}
 
           {/* Botón / badge de Telegram */}
-          {isTelegramConnected ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-xs text-emerald-400 font-medium">
-              <Send className="w-3.5 h-3.5" />
-              Telegram conectado
-            </span>
-          ) : (
-            <button
-              onClick={connectTelegram}
-              disabled={connecting}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-800 border border-slate-700/80 hover:bg-slate-700 rounded-lg text-xs text-indigo-300 font-medium transition-colors cursor-pointer disabled:opacity-50"
-            >
-              <Send className="w-3.5 h-3.5" />
-              {connecting ? "Conectando..." : "Conectar Telegram"}
-            </button>
-          )}
+          <div id="btn-telegram">
+            {isTelegramConnected ? (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-xs text-emerald-400 font-medium">
+                <Send className="w-3.5 h-3.5" />
+                Telegram conectado
+              </span>
+            ) : (
+              <button
+                onClick={connectTelegram}
+                disabled={connecting}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-800 border border-slate-700/80 hover:bg-slate-700 rounded-lg text-xs text-indigo-300 font-medium transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <Send className="w-3.5 h-3.5" />
+                {connecting ? "Conectando..." : "Conectar Telegram"}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

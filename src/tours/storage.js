@@ -1,19 +1,20 @@
 const PREFIX = "tour.";
 
-/**
- * TODO(backend): esto vive hoy en localStorage (se pierde si el usuario
- * cambia de dispositivo/navegador). Cuando el backend tenga un endpoint de
- * onboarding (endpoint propio en tu API), reemplazar
- * isCompleted/complete por llamadas reales y usar esto solo como cache
- * local mientras carga la respuesta del servidor.
- */
 export const TourStorage = {
-  isCompleted(id) {
-    return localStorage.getItem(`${PREFIX}${id}`) === "true";
+  isCompleted(id, version = 1) {
+    const stored = localStorage.getItem(`${PREFIX}${id}`);
+
+    if (stored === null) return false; // nunca lo vio
+
+    const storedVersion = stored === "true" ? 1 : Number(stored);
+
+    if (Number.isNaN(storedVersion)) return false;
+
+    return storedVersion >= version;
   },
 
-  complete(id) {
-    localStorage.setItem(`${PREFIX}${id}`, "true");
+  complete(id, version = 1) {
+    localStorage.setItem(`${PREFIX}${id}`, String(version));
   },
 
   reset(id) {

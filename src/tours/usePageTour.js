@@ -19,11 +19,8 @@ import { TourStorage } from "./storage";
  *   falta si `id` puede cambiar dinámicamente (normalmente no aplica).
  */
 export function usePageTour(id, createSteps, options = {}) {
-  const { onDestroyed: extraOnDestroyed, deps = [] } = options;
+  const { onDestroyed: extraOnDestroyed, version = 1, page = id, deps = [] } = options;
 
-  // Refs para no re-registrar el tour en cada render: ese era el bug
-  // original (createSteps era una arrow inline nueva siempre, así que el
-  // efecto se re-ejecutaba en cada render y spameaba el registro).
   const createStepsRef = useRef(createSteps);
   createStepsRef.current = createSteps;
   const extraOnDestroyedRef = useRef(extraOnDestroyed);
@@ -41,24 +38,22 @@ export function usePageTour(id, createSteps, options = {}) {
         showProgress: true,
         smoothScroll: true,
         stagePadding: 6,
-        // Clase para el theme visual (ver tours/theme.css)
         popoverClass: "app-tour-popover",
-        overlayColor: "rgba(2, 6, 23, 0.75)", // slate-950/75
+        overlayColor: "rgba(2, 6, 23, 0.75)",
         nextBtnText: "Siguiente",
         prevBtnText: "Atrás",
         doneBtnText: "Finalizar",
         progressText: "{{current}} de {{total}}",
         steps,
         onDestroyed: () => {
-          TourStorage.complete(id);
+          TourStorage.complete(id, version);
           extraOnDestroyedRef.current?.();
           runtimeCtx.onFinish?.();
         },
       });
     };
 
-    TourRegistry.register(id, factory);
+    TourRegistry.register(id, factory, version, page);
     return () => TourRegistry.unregister(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, ...deps]);
+  }, [id, version, page, ...deps]);
 }

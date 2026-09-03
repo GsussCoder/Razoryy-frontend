@@ -68,8 +68,6 @@ export default function AdminOverview() {
     return acumulator + haircut.amount;
   }, 0);
 
-  console.log(appointments)
-
   const todayAppointments = appointments.filter((appointment) => {
     const today = new Date(0, 0, 0);
     const appointmentDate = new Date(appointment.appointmentDate);

@@ -5,6 +5,7 @@ import { useBranding } from "../contexts/BrandingContext";
 import { TourManager } from "./TourManager";
 import { TourStorage } from "./storage";
 import { useBreakpoint } from "./useBreakpoint";
+import { TourRegistry } from "./TourRegistry";
 
 // El superadmin es tu panel: nunca recibe onboarding.
 const EXCLUDED_ROLES = ["superadmin"];
@@ -48,7 +49,7 @@ export default function TourProvider({ children }) {
 
     const chain = [];
     if (!TourStorage.isCompleted("sidebar")) chain.push("sidebar");
-    if (pageId !== "sidebar") chain.push(pageId);
+    if (pageId !== "sidebar") chain.push(...TourRegistry.getIdsForPage(pageId));
 
     if (chain.length === 0) return;
 
