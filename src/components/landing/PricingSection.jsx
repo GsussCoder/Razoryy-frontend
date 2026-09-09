@@ -5,15 +5,15 @@ import { CheckCircle, Info } from "lucide-react";
 const AVAILABLE_PLANS = [
   {
     name: "PRO",
-    price: "30.000",
+    price: "40.000",
     popular: true,
     features: [
       {
-        text: "Hasta 2 barberos",
-        desc: "Soporta hasta dos perfiles de barberos trabajando de forma simultánea en la app.",
+        text: "Hasta 2 empleados",
+        desc: "Soporta hasta dos perfiles de empleados trabajando de forma simultánea en la app.",
       },
       {
-        text: "Asignación de servicios a cada barbero",
+        text: "Asignación de servicios a cada empleado",
         desc: "Vincula cortes, lavados o tintes específicos a los barberos que los realizan.",
       },
       {
@@ -36,10 +36,11 @@ const AVAILABLE_PLANS = [
         text: "Comisiones automáticas",
         desc: "Calcula el porcentaje exacto que le corresponde a cada barbero al instante.",
       },
-      // {
-      //   text: "Notificaciones de citas",
-      //   desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
-      // },
+      {
+        text: "Notificaciones de citas",
+        desc: "Serás notificado inmediatamente cuando un cliente agende una cita.",
+        // desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
+      },
       {
         text: "Soporte activo",
         desc: "Acceso a nuestro canal de ayuda preferencial vía WhatsApp o correo.",
@@ -68,15 +69,15 @@ const AVAILABLE_PLANS = [
   },
   {
     name: "BUSINESS",
-    price: "70.000",
+    price: "80.000",
     features: [
       {
-        text: "Asignación de servicios a cada barbero",
-        desc: "Vincula cortes, lavados o tintes específicos a los barberos que los realizan.",
+        text: "Asignación de servicios a cada empleado",
+        desc: "Vincula cortes, lavados o tintes específicos a los empleados que los realizan.",
       },
       {
-        text: "Hasta 8 barberos",
-        desc: "Soporta hasta ocho perfiles de barberos trabajando de forma simultánea en la app.",
+        text: "Hasta 8 empleados",
+        desc: "Soporta hasta ocho perfiles de empleados trabajando de forma simultánea en la app.",
       },
       {
         text: "Gestión de empleados",
@@ -100,12 +101,13 @@ const AVAILABLE_PLANS = [
       },
       {
         text: "Comisiones automáticas",
-        desc: "Calcula el porcentaje exacto que le corresponde a cada barbero al instante.",
+        desc: "Calcula el porcentaje exacto que le corresponde a cada empleado al instante.",
       },
-      // {
-      //   text: "Notificaciones de citas",
-      //   desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
-      // },
+      {
+        text: "Notificaciones de citas",
+        desc: "Serás notificado inmediatamente cuando un cliente agende una cita.",
+        // desc: "Envía recordatorios automáticos para reducir el ausentismo de clientes.",
+      },
       {
         text: "Soporte activo",
         desc: "Acceso a nuestro canal de ayuda preferencial vía WhatsApp o correo.",

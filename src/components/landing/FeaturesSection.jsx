@@ -1,20 +1,13 @@
 import {
+  Calendar,
   CheckCircle,
   DollarSign,
-  ListCheck,
   MapPinned,
-  PackageCheck,
   ShieldCheck,
   Users,
 } from "lucide-react";
 
 const FEATURES = [
-  // {
-  //   icon: Calendar,
-  //   title: "Gestión de Citas",
-  //   description:
-  //     "Sistema completo de reservas con confirmación automática y recordatorios por mensajes de WhatsApp.",
-  // },
   {
     icon: Users,
     title: "Control de Empleados",
@@ -39,17 +32,11 @@ const FEATURES = [
       "Métricas de ingresos, egresos, citas y rendimiento de tu negocio.",
   },
   {
-    icon: ListCheck,
+    icon: Calendar,
     title: "Reservación de citas",
     description:
-      "Tus clientes podrán agendar citas con tu negocio a través de tu enlace público y único.",
+      "Sistema completo de reservas con agenda automática y notificaciones por Telegram.",
   },
-  // {
-  //   icon: PackageCheck,
-  //   title: "Gestiona productos",
-  //   description:
-  //     "Mantente alerta de productos del local con avisos de stock bajo.",
-  // },
   {
     icon: ShieldCheck,
     title: "Soporte activo",
@@ -70,10 +57,10 @@ export function FeaturesSection() {
               ¿Qué es Razoryy?
             </h2>
             <p className="text-slate-400 text-lg mb-4 leading-relaxed">
-              Razoryy es la plataforma definitiva de gestión diseñada exclusivamente para transformar el día a día de las barberías modernas.
+              Razoryy es la plataforma definitiva de gestión diseñada exclusivamente para transformar el día a día de tu negocio estetico.
             </p>
             <p className="text-slate-400 text-lg mb-6 leading-relaxed">
-              Nacimos con el objetivo de eliminar las tareas administrativas pesadas, permitiéndote a ti y a tus barberos concentrarse en lo que mejor saben hacer: elevar el estilo de sus clientes.
+              Nacimos con el objetivo de eliminar las tareas administrativas pesadas, permitiéndote a ti y a tus empleados concentrarse en lo que mejor saben hacer: elevar el estilo de sus clientes.
             </p>
             <div className="p-4 bg-slate-800 rounded-xl border border-slate-700">
               <p className="text-indigo-400 font-medium text-sm">Nuestra Misión</p>

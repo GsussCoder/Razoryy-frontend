@@ -1,24 +1,51 @@
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
+
+const texts = ["BARBERÍA", "SPA", "SALÓN DE BELLEZA", "SALÓN DE UÑAS"];
 
 export function HeroSection() {
+  const [textIndex, setTextIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+
+      setTimeout(() => {
+        setTextIndex((prev) => (prev + 1) % texts.length);
+        setVisible(true);
+      }, 500);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="hero-section" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-          Gestiona tu barbería de forma{" "}
-          <span className="text-indigo-400">profesional</span>
+        <h1 className="mb-4 text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+          Gestiona tu negocio de
         </h1>
+        <div className="w-fit max-w-full p-2 pl-6 pr-6 inline-block bg-indigo-900/20 border-2 rounded-2xl border-indigo-900">
+          <span
+            className={`block w-max text-2xl sm:text-5xl lg:text-6xl font-bold text-indigo-400 leading-tight transition-opacity duration-500 ${visible ? "opacity-100" : "opacity-0"}`}
+          >
+            {texts[textIndex]}
+          </span>
+        </div>
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          de forma profesional
+        </h2>
         <p className="text-lg sm:text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-          Deja de llevar notas mentales de tus finanzas, obtén el
-          control total de tu local con{" "}
-          <span className="text-indigo-400 font-bold">Razoryy </span> y gestiona todo tu 
-          negocio de forma automatica e instantanea. Unete a la 
-          <span className="text-indigo-400 font-bold"> PRUEBA GRATIS DE 20 DÍAS</span>
+          Deja de llevar notas mentales de tus finanzas, obtén el control total
+          de tu local con{" "}
+          <span className="text-indigo-400 font-bold">Razoryy</span>, gestiona
+          todo tu negocio de forma automatica e instantanea.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="/register"
-            className="bg-indigo-600 active:bg-indigo-800 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg inline-flex items-center justify-center gap-2 px-6 py-3  transition-all hover:shadow-lg hover:shadow-indigo-500/30"
+            className="bg-indigo-600 active:bg-indigo-800 hover:bg-indigo-700 text-white font-medium rounded-lg inline-flex items-center justify-center gap-2 px-6 py-3  transition-all hover:shadow-lg hover:shadow-indigo-500/30"
           >
             Prueba gratis 20 días
             <ArrowRight className="w-5 h-5" />
