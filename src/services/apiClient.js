@@ -6,8 +6,6 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 async function request(endpoint, options = {}, isFormData) {
-  const token = sessionStorage.getItem("authToken");
-
   const headers = {
     ...options.headers,
   };
@@ -16,13 +14,10 @@ async function request(endpoint, options = {}, isFormData) {
     headers["Content-Type"] = "application/json"
   }
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
   const config = {
     ...options,
     headers,
+    credentials: "include"
   };
 
   if (

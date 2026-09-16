@@ -47,7 +47,7 @@ export default function AppLayout({
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    navigate("/login");
   };
 
   const renderNavLink = (item) => {

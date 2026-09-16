@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { authApi } from "../services/authApi";
 
 // Mapa de normalización: backend → frontend
 const ROLE_MAP = {
@@ -11,17 +12,14 @@ export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Restaurar sesión desde sessionStorage al cargar
-    const savedToken = sessionStorage.getItem("authToken");
     const savedUser = sessionStorage.getItem("authUser");
 
-    if (savedToken && savedUser) {
+    if (savedUser) {
       try {
-        setToken(savedToken);
         setUser(JSON.parse(savedUser));
       } catch {
         logout();
@@ -34,7 +32,6 @@ export function AuthProvider({ children }) {
   const login = (apiResponse) => {
     const {
       id,
-      token,
       name,
       user: username,
       role,
@@ -74,11 +71,7 @@ export function AuthProvider({ children }) {
       telegramConnected: telegramConnected,
     };
 
-    setToken(token);
     setUser(userData);
-
-    // Persistir
-    sessionStorage.setItem("authToken", token);
     sessionStorage.setItem("authUser", JSON.stringify(userData));
   };
 
@@ -90,10 +83,8 @@ export function AuthProvider({ children }) {
     sessionStorage.setItem("authUser", JSON.stringify(newUser));
   };
 
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    sessionStorage.removeItem("authToken");
+  const logout = async () => {
+    await authApi.logout();
     sessionStorage.removeItem("authUser");
   };
 
@@ -101,11 +92,10 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        token,
         login,
         updateUser,
         logout,
-        isAuthenticated: !!token,
+        isAuthenticated: !!user,
         isLoading,
       }}
     >
