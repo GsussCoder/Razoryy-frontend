@@ -13,6 +13,7 @@ export default function ServiceFormModal({
     nameService: "",
     description: "",
     price: 0,
+    duration: 10,
   });
 
   useEffect(() => {
@@ -21,12 +22,14 @@ export default function ServiceFormModal({
         nameService: serviceToEdit.nameService || "",
         description: serviceToEdit.description || "",
         price: Number(serviceToEdit.price) || "",
+        duration: Number(serviceToEdit.duration),
       });
     } else {
       setFormData({
         nameService: "",
         description: "",
         price: 0,
+        duration: 10,
       });
     }
   }, [serviceToEdit, isOpen]);
@@ -45,12 +48,14 @@ export default function ServiceFormModal({
           nameService: formData.nameService,
           description: formData.description,
           price: Number(formData.price),
+          duration: Number(formData.duration),
         });
       } else {
         await createService({
           nameService: formData.nameService,
           description: formData.description,
           price: Number(formData.price),
+          duration: Number(formData.duration),
         });
       }
 
@@ -58,6 +63,7 @@ export default function ServiceFormModal({
         nameService: "",
         description: "",
         price: 0,
+        duration: 10,
       });
 
       onSuccess?.();
@@ -101,20 +107,38 @@ export default function ServiceFormModal({
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Precio
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            min="0"
-            step="0.01"
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white"
-          />
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Precio del servicio
+            </label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              required
+              min="0"
+              step="0.01"
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Duración (en minutos)
+            </label>
+            <input
+              type="number"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+              min="10"
+              max="180"
+              step="0.01"
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white"
+            />
+          </div>
         </div>
 
         <div className="flex gap-3 pt-4">

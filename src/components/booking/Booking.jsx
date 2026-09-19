@@ -60,6 +60,7 @@ export default function Booking() {
         const slots = await bookingApi.getAvailableSlots(
           barbershop.tenantId,
           selectedBarber.id,
+          selectedService.id,
           selectedDate,
         );
         setAvailableSlots(Array.isArray(slots) ? slots : []);

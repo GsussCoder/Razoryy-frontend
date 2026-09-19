@@ -36,7 +36,8 @@ export function StepService({ services, selectedService, onSelect }) {
                 <p className="font-semibold text-white text-sm truncate">{service.nameService}</p>
                 <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
                   <Clock className="w-3 h-3" />
-                  20 min aprox.
+                  {service.duration} min aprox.
+                  {console.log(service)}
                 </p>
               </div>
 

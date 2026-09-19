@@ -51,6 +51,11 @@ export default function AdminServices() {
       accessor: "price", 
       render: (value) => <span>${value.toLocaleString()}</span>
     },
+    { 
+      header: "Duración", 
+      accessor: "duration", 
+      render: (value) => <span>{value} mins</span>
+    },
     {
       header: "Acciones",
       accessor: "id",

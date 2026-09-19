@@ -66,7 +66,7 @@ export function StepDateTime({
           ) : availableSlots.length === 0 ? (
             <div className="flex items-center gap-2 text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-3">
               <AlertCircle className="w-4 h-4 shrink-0" />
-              No hay horarios disponibles para este día. Elige otra fecha.
+              No hay horarios disponibles en esta fecha. Elige otra fecha.
             </div>
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
