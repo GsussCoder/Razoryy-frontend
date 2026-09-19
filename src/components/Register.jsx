@@ -7,7 +7,6 @@ import {
   CheckCircle,
   MapPin,
 } from "lucide-react";
-import { apiClient } from "../services/apiClient";
 import { useToast } from "../contexts/ToastContext";
 import { useDetectLocation } from "../hooks/useDetectLocation";
 import RazoryyLogo from "../assets/logo.svg";
@@ -17,14 +16,14 @@ const MEMBERSHIP_PLANS = [
   {
     value: "PRO",
     label: "Pro (Prueba gratis de 20 días)",
-    price: "30.000",
+    price: "40.000",
     description:
       "Plan independiente, hasta 2 barberos, 1 sucursal y más operaciones.",
   },
   {
     value: "BUSINESS",
     label: "Business (Prueba gratis de 20 días)",
-    price: "70.000",
+    price: "80.000",
     description:
       "Plan avanzado. hasta 8 barberos, 2 sucursales y más operaciones.",
   },
@@ -92,12 +91,10 @@ export default function Register() {
 
   const validateStep1 = () => {
     const { barberName, locationData } = formData;
-    if (!barberName.trim()) return "El nombre de la barbería es obligatorio.";
+    if (!barberName.trim()) return "El nombre de tu negocio es obligatorio.";
     if (!locationData.country.trim()) return "El país es obligatorio.";
     if (!locationData.state.trim())
       return "El departamento/estado es obligatorio.";
-    if (!locationData.city.trim()) return "La ciudad es obligatoria.";
-    if (!locationData.address.trim()) return "La dirección es obligatoria.";
     return null;
   };
 
@@ -142,7 +139,7 @@ export default function Register() {
         payload.email,
         payload.password,
       );
-      showSuccess("¡Barbería registrada! Ya puedes iniciar sesión.");
+      showSuccess("¡Negocio registrado! Ya puedes iniciar sesión.");
       navigate("/login");
     } catch (err) {
       showError(
@@ -186,7 +183,7 @@ export default function Register() {
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-white">
               {step === 1
-                ? "Registra tu barbería"
+                ? "Registra tu negocio"
                 : "Crea tu cuenta de administrador"}
             </h1>
             <p className="text-sm text-slate-400 mt-1">
@@ -228,7 +225,7 @@ export default function Register() {
             <div className="space-y-5">
               {/* Nombre de la barbería */}
               <div>
-                <label className={labelClass}>Nombre de la barbería</label>
+                <label className={labelClass}>Nombre de tu negocio *</label>
                 <input
                   type="text"
                   name="barberName"
@@ -242,7 +239,7 @@ export default function Register() {
 
               {/* Plan */}
               <div>
-                <label className={labelClass}>Plan de membresía</label>
+                <label className={labelClass}>Plan de membresía *</label>
                 <div className="space-y-2">
                   {MEMBERSHIP_PLANS.map((plan) => (
                     <label
@@ -315,15 +312,11 @@ export default function Register() {
                   {locationError && (
                     <p className="text-xs text-red-400 mb-2">{locationError}</p>
                   )}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {/* los 4 inputs igual que antes */}
-                  </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">
-                      País
+                      País *
                     </label>
                     <select
                       name="country"
@@ -335,6 +328,7 @@ export default function Register() {
                         --Seleccionar país--
                       </option>
                       <option value="Colombia">Colombia</option>
+                      <option value="Colombia">Venezuela</option>
                       <option value="Peru">Peru</option>
                       <option value="Chile">Chile</option>
                       <option value="Argentina">Argentina</option>
@@ -345,7 +339,7 @@ export default function Register() {
                   </div>
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">
-                      Departamento / Estado
+                      Departamento / Estado *
                     </label>
                     <input
                       type="text"
@@ -353,32 +347,6 @@ export default function Register() {
                       value={formData.locationData.state}
                       onChange={handleLocationChange}
                       placeholder="Ej. Medellín, Lima, Santiago"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-400 mb-1">
-                      Localidad / Distrito
-                    </label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.locationData.city}
-                      onChange={handleLocationChange}
-                      placeholder="Ej. Poblado, Miraflores, Provincia"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-400 mb-1">
-                      Dirección
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.locationData.address}
-                      onChange={handleLocationChange}
-                      placeholder="Calle 25 # 10-45"
                       className={inputClass}
                     />
                   </div>
@@ -400,7 +368,7 @@ export default function Register() {
           {step === 2 && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className={labelClass}>Nombre completo</label>
+                <label className={labelClass}>Nombre *</label>
                 <input
                   type="text"
                   name="name"
@@ -414,13 +382,13 @@ export default function Register() {
               </div>
 
               <div>
-                <label className={labelClass}>Teléfono / WhatsApp</label>
+                <label className={labelClass}>Teléfono / WhatsApp *</label>
                 <input
                   type="tel"
                   name="number"
                   value={formData.number}
                   onChange={handleChange}
-                  placeholder="+57 313 880 2211"
+                  placeholder="+57 301 234 5678"
                   className={inputClass}
                   required
                   disabled={submitting}
@@ -428,7 +396,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label className={labelClass}>Correo electrónico</label>
+                <label className={labelClass}>Correo electrónico *</label>
                 <input
                   type="email"
                   name="email"
@@ -443,7 +411,7 @@ export default function Register() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className={labelClass}>Contraseña</label>
+                  <label className={labelClass}>Contraseña *</label>
                   <input
                     type="password"
                     name="password"
@@ -457,7 +425,7 @@ export default function Register() {
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Confirmar contraseña</label>
+                  <label className={labelClass}>Confirmar contraseña *</label>
                   <input
                     type="password"
                     name="confirmPassword"
@@ -501,7 +469,7 @@ export default function Register() {
                       Registrando...
                     </>
                   ) : (
-                    "Crear barbería"
+                    "Registrar negocio"
                   )}
                 </button>
               </div>
