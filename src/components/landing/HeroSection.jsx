@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-const texts = ["BARBERÍA", "SPA", "SALÓN DE BELLEZA", "SALÓN DE UÑAS"];
+const texts = ["SALÓN DE BARBERÍA", "SALÓN DE SPA", "SALÓN DE BELLEZA", "SALÓN DE UÑAS"];
 
 export function HeroSection() {
   const [textIndex, setTextIndex] = useState(0);
@@ -15,7 +15,7 @@ export function HeroSection() {
         setTextIndex((prev) => (prev + 1) % texts.length);
         setVisible(true);
       }, 500);
-    }, 3000);
+    }, 3500);
 
     return () => clearInterval(interval);
   }, []);
@@ -24,18 +24,18 @@ export function HeroSection() {
     <section id="hero-section" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="mb-4 text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-          Gestiona tu negocio de
+          Gestiona tu negocio
         </h1>
-        <div className="w-fit max-w-full p-2 pl-6 pr-6 inline-block bg-indigo-900/20 border-2 rounded-2xl border-indigo-900">
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          de forma profesional
+        </h2>
+        <div className="w-fit max-w-full mb-6 p-2 pl-6 pr-6 inline-block bg-indigo-900/20 border-2 rounded-2xl border-indigo-900">
           <span
             className={`block w-max text-2xl sm:text-5xl lg:text-6xl font-bold text-indigo-400 leading-tight transition-opacity duration-500 ${visible ? "opacity-100" : "opacity-0"}`}
           >
             {texts[textIndex]}
           </span>
         </div>
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-          de forma profesional
-        </h2>
         <p className="text-lg sm:text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
           Deja de llevar notas mentales de tus finanzas, obtén el control total
           de tu local con{" "}
