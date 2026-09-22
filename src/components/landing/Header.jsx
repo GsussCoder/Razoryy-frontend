@@ -111,10 +111,6 @@ export function Header({scrollToInit, scrollToAboutUs, scrollToContact, scrollTo
           </button>
           <a
             href="/login"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick();
-            }}
             className={`w-fit ${linkStyles}`}
           >
             Soy barbero
