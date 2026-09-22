@@ -72,7 +72,21 @@ export default function AppLayout({
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col lg:flex-row">
       {/* Header Mobile */}
       <header className="lg:hidden sticky top-0 z-50 flex items-center justify-between bg-slate-800 border-b border-slate-700 px-4 py-3 shadow-md">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors focus:outline-none"
+        >
+          {sidebarOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
+        </button>
+
         <div className="flex items-center gap-3 min-w-0">
+          <h1 className="text-sm font-bold text-white truncate">
+            {branding.barberName || "Razoryy"}
+          </h1>
           {branding.logo ? (
             <img
               src={branding.logo}
@@ -87,21 +101,7 @@ export default function AppLayout({
               <Scissors className="w-4 h-4 text-white" />
             </div>
           )}
-          <h1 className="text-sm font-bold text-white truncate">
-            {branding.barberName || "Razoryy"}
-          </h1>
         </div>
-
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors focus:outline-none"
-        >
-          {sidebarOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
       </header>
 
       {/* Sidebar Desktop y Mobile Drawer */}
