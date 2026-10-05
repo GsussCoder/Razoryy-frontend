@@ -5,6 +5,8 @@
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+const base = BASE_URL.endsWith("/") ? BASE_URL.slice(0, -1) : BASE_URL;
+
 async function request(endpoint, options = {}, isFormData) {
   const headers = {
     ...options.headers,
@@ -29,7 +31,7 @@ async function request(endpoint, options = {}, isFormData) {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, config);
+    const response = await fetch(`${base}${endpoint}`, config);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
