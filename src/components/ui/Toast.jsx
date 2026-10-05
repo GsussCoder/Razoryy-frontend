@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { CheckCircle2, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 
 const STYLES = {
-  success: { Icon: CheckCircle2, border: 'border-green-500/30', bg: 'bg-green-500/10', icon: 'text-green-400', bar: 'bg-green-500' },
+  success: { Icon: CheckCircle2, border: 'border-indigo-500/30', bg: 'bg-indigo-500/10', icon: 'text-indigo-400', bar: 'bg-indigo-500' },
   error:   { Icon: XCircle,      border: 'border-red-500/30',   bg: 'bg-red-500/10',   icon: 'text-red-400',   bar: 'bg-red-500' },
   warning: { Icon: AlertTriangle,border: 'border-yellow-500/30',bg: 'bg-yellow-500/10',icon: 'text-yellow-400',bar: 'bg-yellow-500' },
   info:    { Icon: Info,         border: 'border-indigo-500/30',bg: 'bg-indigo-500/10',icon: 'text-indigo-400',bar: 'bg-indigo-500' },

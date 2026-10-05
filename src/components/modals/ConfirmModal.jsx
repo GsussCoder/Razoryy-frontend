@@ -15,7 +15,7 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, itemName }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors cursor-pointer"
+            className="flex-1 px-4 py-2 bg-slate-600/20 text-white rounded-lg hover:bg-slate-500/30 transition-colors cursor-pointer"
           >
             Cancelar
           </button>
@@ -25,7 +25,7 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, itemName }) {
               onConfirm();
               onClose();
             }}
-            className="flex-1 px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors cursor-pointer"
+            className="flex-1 px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors cursor-pointer"
           >
             Confirmar
           </button>
