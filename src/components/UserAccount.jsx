@@ -6,10 +6,25 @@ import { useAuth } from '../contexts/AuthContext';
 import { useBreakpoint } from '../tours/useBreakpoint';
 import { TourManager } from '../tours/TourManager';
 import { TourStorage } from '../tours/storage';
+import { useNotifications } from '../hooks/useNotifications';
 
 // El superadmin no tiene onboarding: el botón "Ver tutorial de nuevo" no se
 // muestra en ese caso (ver misma exclusión en tours/TourProvider.jsx).
 const EXCLUDED_ROLES = ['superadmin'];
+
+function ButtonNotifications() {
+  const { granted, askPermission, showExample } = useNotifications();
+
+  if (granted === 'unsupported') return <p>Tu navegador no soporta notificaciones.</p>;
+  if (granted === 'denied') return <p>Notificaciones bloqueadas. Actívalas en los ajustes del navegador.</p>;
+  if (granted === 'granted') return <button onClick={showExample}>Probar notificación</button>;
+
+  return (
+    <button className="w-full py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 text-sm font-medium flex items-center justify-center gap-2" onClick={askPermission}>
+      Activar notificaciones
+    </button>
+  );
+}
 
 export default function UserAccount() {
   const { changePassword, loading, error, setError } = useChangePassword();
@@ -135,6 +150,8 @@ export default function UserAccount() {
           </button>
         </div>
       )}
+
+      <ButtonNotifications />
     </div>
   );
 }
